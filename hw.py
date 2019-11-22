@@ -10,7 +10,10 @@ elif b > a:
 else:
     max = "Числа равны"
 
+s = a * b
+
 print("a =", a)
 print("b =", b)
 print("max =", max)
 print("sum =", sum)
+print("a * b =", s)
