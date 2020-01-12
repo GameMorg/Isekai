@@ -1,6 +1,4 @@
-from save_game import Save
+from body import *
 
-
-testdb = Save()
-
-testdb.show("run")
+if __name__ == "__main__":
+	main()
