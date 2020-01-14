@@ -1,5 +1,6 @@
 import pygame
 from save_game import *
+from button import *
 
 
 class Hero(object):
@@ -24,6 +25,14 @@ class Camera(object):
 		self.arg = arg
 		
 
+
+def rect(win, color, x=0, y=0, w=70, h=30):
+	pygame.draw.rect(win(color), (x, y, w, h))
+	
+
+def load_img():
+	pass
+
 def main():
 	pygame.init()
 
@@ -45,6 +54,7 @@ def main():
 
 	hero = Hero(x, y, speed)
 
+
 	run = True 
 	while run:
 		pygame.time.delay(50)
@@ -55,6 +65,7 @@ def main():
 				run = False
 
 		keys = pygame.key.get_pressed()
+
 		if keys[pygame.K_LEFT] and hero.x > 10:
 			hero.x_set(-speed) 
 
@@ -73,3 +84,31 @@ def main():
 
 	pygame.quit()
 
+def menu():
+	show = True
+
+	pygame.init()
+
+	save = Save("Save")
+
+	BLUE = (0, 0, 255)
+
+	display_widht = 800
+	display_height = 600
+	win  = pygame.display.set_mode((display_widht, display_height))
+
+
+	while show:
+		pygame.time.delay(50)
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				show = False
+
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				if event.button == 1:
+					pygame.draw.rect(win, BLUE, (event.pos[0]-10, event.pos[1]-10, 20, 20))
+					pygame.display.update()
+
+		win.fill((255, 255, 255))
+		pygame.draw.rect(win, (0, 0, 255), (50, 50, 50, 50))
+		pygame.display.update()
