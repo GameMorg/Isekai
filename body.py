@@ -20,7 +20,8 @@ class Button():
                 if click[0] == 1 and action is not None:
                     pygame.time.delay(300)
                     action()
-
+            else:
+                pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
         else:
             pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
         print_text(message, x + 10, y + 10, win)
