@@ -26,6 +26,21 @@ class Button():
             pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
         print_text(message, x + 10, y + 10, win)
 
+    def blitx(self,win, image_pas, image_active, x, y, action=None):
+        mosue = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if x < mosue[0] < x + self.widht:
+            if y < mosue[1] < y + self.height:
+                win.blit(image_active, (x, y))
+
+                if click[0] == 1 and action is not None:
+                    pygame.time.delay(300)
+                    action()
+            else:
+                win.blit(image_pas, (x, y))
+        else:
+            win.blit(image_pas, (x, y))
+
 
 class Hero(object):
     """docstring for Hero"""
@@ -119,7 +134,9 @@ def menu():
 
     sbp = pygame.image.load('textures//load_B2.png')
     sba = pygame.image.load("textures//Load_B.png")
-    start_bth = Button(300, 70, sbp, sba)
+    start_bth = Button(192, 84, sbp, sba)
+
+    skale = pygame.transform.scale(meun_backr,(800, 600))
 
     load_bt = Button(300, 70)
 
@@ -135,7 +152,6 @@ def menu():
                 if event.button == 1:
                     pass
 
-        win.blit(meun_backr, (0, 0))
-        start_bth.draw(display_height/2.5, display_widht/5.5, "    Start game", win, main)
-        load_bt.draw(display_height / 2.5, display_widht / 3.5, "         Load", win)
+        win.blit(skale, (0, 0))
+        start_bth.blitx(win, sbp, sba, display_widht / 2.75, display_height / 6, main)
         pygame.display.update()
