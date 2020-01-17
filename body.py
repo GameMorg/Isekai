@@ -87,6 +87,12 @@ def main():
         if keys[pygame.K_RIGHT] and hero.x < display_widht - 10 - widht:
             hero.x_set(speed)
 
+        if keys[pygame.K_F5]:
+            save.save('x', hero.x)
+
+        if keys[pygame.K_F8]:
+            hero.x = save.load('x')
+
         win.fill((255, 255, 255))
         pygame.draw.rect(win, (0, 0, 255), (hero.x, hero.y, widht, height))
         pygame.display.update()
@@ -110,9 +116,12 @@ def menu():
     BLUE = (0, 0, 255)
 
     meun_backr = pygame.image.load('textures//backr.jpg')
+
     sbp = pygame.image.load('textures//load_B2.png')
     sba = pygame.image.load("textures//Load_B.png")
     start_bth = Button(300, 70, sbp, sba)
+
+    load_bt = Button(300, 70)
 
     display_widht = 800
     display_height = 600
@@ -127,5 +136,6 @@ def menu():
                     pass
 
         win.blit(meun_backr, (0, 0))
-        start_bth.draw(display_height/2.5, display_widht/5.5, "Start game", win, main)
+        start_bth.draw(display_height/2.5, display_widht/5.5, "    Start game", win, main)
+        load_bt.draw(display_height / 2.5, display_widht / 3.5, "         Load", win)
         pygame.display.update()
