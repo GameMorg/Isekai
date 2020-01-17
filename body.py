@@ -1,6 +1,27 @@
 import pygame
 from save_game import *
-from button import *
+
+
+class Button():
+    def __init__(self, widht, height, ineractive_colar, active_color):
+        self.widht = widht
+        self.height = height
+        self.ineractive_colar = ineractive_colar
+        self.active_color = active_color
+    def draw(self, x, y, message, win, action=None):
+        mosue = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        if x < mosue[0] < x + self.widht:
+            if y <  mosue[1] < y + self.height:
+                pygame.draw.rect(win, (23, 204, 58), (x, y, self.widht, self.height))
+
+                if click[0] == 1 and action is not None:
+                    pygame.time.delay(300)
+                    action()
+
+        else:
+            pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
 
 
 class Hero(object):
@@ -25,10 +46,6 @@ class Camera(object):
     def __init__(self, arg):
         super(Camera, self).__init__()
         self.arg = arg
-
-
-def rect(win, color, x=0, y=0, w=70, h=30):
-    pygame.draw.rect(win(color), (x, y, w, h))
 
 
 def load_img():
@@ -87,19 +104,14 @@ def menu():
 
     BLUE = (0, 0, 255)
 
+    meun_backr = pygame.image.load('//textures//backr.jpg')
+    start_bth = Button(300, 70)
+
     display_widht = 800
     display_height = 600
     win = pygame.display.set_mode((display_widht, display_height))
 
-    pos = pygame.mouse.get_pos()
-    pressed1, pressed2, pressed3 = pygame.mouse.get_pressed()
-    Rectplace = pygame.draw.rect(win, (255, 0, 0), (100, 100, 100, 100))
-
     while show:
-        if Rectplace.collidepoint(pos) and pressed1:
-            main()
-            pygame.display.update()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 show = False
@@ -108,6 +120,5 @@ def menu():
                 if event.button == 1:
                     pass
 
-        win.fill((255, 255, 255))
-        pygame.draw.rect(win, (0, 0, 255), (100, 100, 100, 100))
+        win.plit(meun_backr, (0, 0))
         pygame.display.update()
