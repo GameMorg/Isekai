@@ -109,7 +109,9 @@ def menu():
     BLUE = (0, 0, 255)
 
     meun_backr = pygame.image.load('textures//backr.jpg')
-    start_bth = Button(300, 70, )
+    sbp = pygame.image.load('textures//load_B2.png')
+    sba = pygame.image.load("textures//Load_B.png")
+    start_bth = Button(300, 70, sbp, sba)
 
     display_widht = 800
     display_height = 600
@@ -124,5 +126,5 @@ def menu():
                     pass
 
         win.blit(meun_backr, (0, 0))
-        start_bth.draw(100, 100, "my first button", win)
+        start_bth.draw(display_height/2.5, display_widht/5.5, "Start game", win, main)
         pygame.display.update()
