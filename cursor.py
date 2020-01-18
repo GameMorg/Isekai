@@ -24,4 +24,3 @@ class Map_block():
                 self.block[i].append(r)
 
 
-

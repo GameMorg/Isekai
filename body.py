@@ -132,23 +132,24 @@ def menu():
     show = True
 
     pygame.init()
+    # init game
 
     save = Save("Save")
-
-    BLUE = (0, 0, 255)
-
     meun_backr = pygame.image.load('textures//backr.jpg')
-
     sbp = pygame.image.load('textures//load_B2RU.png')
     sba = pygame.image.load("textures//Load_BRU.png")
     start_bth = Button(192, 84, sbp, sba)
 
-    load_bt = Button(300, 70)
+
+
+    map_new = Map_block(25, 19, 1)
 
     display_widht = 800
     display_height = 600
     win = pygame.display.set_mode((display_widht, display_height))
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
+
+    # start menu
     while show:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
