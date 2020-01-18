@@ -1,6 +1,6 @@
 import pygame
 from save_game import *
-
+from cursor import *
 
 class Button():
     def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58)):
@@ -26,7 +26,7 @@ class Button():
             pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
         print_text(message, x + 10, y + 10, win)
 
-    def blitx(self,win, image_pas, image_active, x, y, action=None):
+    def blitx(self, win, image_pas, image_active, x, y, action=None):
         mosue = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x < mosue[0] < x + self.widht:
@@ -41,6 +41,13 @@ class Button():
         else:
             win.blit(image_pas, (x, y))
 
+
+class Block():
+    def __init__(self):
+        pass
+
+    def draw(self):
+        pass
 
 class Hero(object):
     """docstring for Hero"""
@@ -132,17 +139,16 @@ def menu():
 
     meun_backr = pygame.image.load('textures//backr.jpg')
 
-    sbp = pygame.image.load('textures//load_B2.png')
-    sba = pygame.image.load("textures//Load_B.png")
+    sbp = pygame.image.load('textures//load_B2RU.png')
+    sba = pygame.image.load("textures//Load_BRU.png")
     start_bth = Button(192, 84, sbp, sba)
-
-    skale = pygame.transform.scale(meun_backr,(800, 600))
 
     load_bt = Button(300, 70)
 
     display_widht = 800
     display_height = 600
     win = pygame.display.set_mode((display_widht, display_height))
+    skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
     while show:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
