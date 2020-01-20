@@ -36,7 +36,6 @@ def land_cart(chank, max_x, max_y):
                 elem.insert(x, 1)
             else:
                 pass
-
             if x >= max_x:
                 x = -1
 

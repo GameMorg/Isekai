@@ -75,23 +75,23 @@ class Camera(object):
         self.arg = arg
 
 
-def print_chank(chank, block_size, num_chank):
-    x = 1
-    y = 1
+def print_chank(chank, x, y):
+    x = 0
+    y = 0
     list_map = []
     for elem in chank:
-        y += 1
         for i in elem:
-            x += 1
             if i == 1:
                 x_b = int(x) * 32
                 y_b = int(y) * 32
                 tmp = [x_b, y_b]
                 list_map.append(tmp)
+            x += 1
             if x >= len(elem):
-                x = 1
+                x = 0
+        y += 1
         if y >= len(chank):
-            y = 1
+            y = 0
     return list_map
 
 
@@ -107,9 +107,36 @@ def main():
 
     # init map
     earst = pygame.image.load("textures//block//earst.jpg")
-    chank_blok = Map_block(20, 19, 0)
+    chank_blok = Map_block(25, 19, 0)
     blok_size = (32, 32)
-    chank = land_cart(chank_blok.block, 10, 10)
+    chank = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
+
+    ]
 
     # init button
     x = 100
@@ -146,7 +173,7 @@ def main():
 
         win.fill((255, 255, 255))
         # map
-        tmp = print_chank(chank, blok_size, chank_blok.numb)
+        tmp = print_chank(chank, 25, 19)
         for elem in tmp:
             x_b = elem[0]
             y_b = elem[1]
