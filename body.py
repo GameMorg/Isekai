@@ -2,6 +2,7 @@ import pygame
 from save_game import *
 from cursor import *
 
+
 class Button():
     def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58)):
         self.widht = widht
@@ -49,6 +50,7 @@ class Block():
     def draw(self):
         pass
 
+
 class Hero(object):
     """docstring for Hero"""
 
@@ -73,23 +75,48 @@ class Camera(object):
         self.arg = arg
 
 
+def print_chank(chank, block_size, num_chank):
+    x = 1
+    y = 1
+    list_map = []
+    for elem in chank:
+        y += 1
+        for i in elem:
+            if i == 1:
+                x_b = x * block_size
+                tmp = [x_b]
+                list_map.append(tmp)
+                if x >= len(elem):
+                    x = 1
+        if y >= len(chank):
+            y = 1
+    return list_map
+
+
 def main():
     pygame.init()
 
     save = Save("Save")
-
+    # init display
     display_widht = 800
     display_height = 600
     win = pygame.display.set_mode((display_widht, display_height))
-
     pygame.display.set_caption("Isekay")
 
+    # init map
+    earst = pygame.image.load("textures//block//earst.jpg")
+    chank_blok = Map_block(25, 19, 0)
+    blok_size = (32, 32)
+    chank = land_cart(chank_blok.block, 18, 18)
+
+    # init button
     x = 100
     y = display_height / 1.3
     widht = 32
     height = 64
     speed = 5
 
+    # init mob
     hero = Hero(x, y, speed)
 
     run = True
@@ -116,6 +143,12 @@ def main():
             hero.x = save.load('x')
 
         win.fill((255, 255, 255))
+        # map
+        tmp = print_chank(chank, blok_size, chank_blok.numb)
+        for elem in tmp:
+            x_b = elem[0]
+            win.blit(earst, x_b)
+        # hero
         pygame.draw.rect(win, (0, 0, 255), (hero.x, hero.y, widht, height))
         pygame.display.update()
 
@@ -135,14 +168,13 @@ def menu():
     # init game
 
     save = Save("Save")
-    meun_backr = pygame.image.load('textures//backr.jpg')
-    sbp = pygame.image.load('textures//load_B2RU.png')
-    sba = pygame.image.load("textures//Load_BRU.png")
+    meun_backr = pygame.image.load('textures//background//backr.jpg')
+    sbp = pygame.image.load('textures//button//load_B2RU.png')
+    sba = pygame.image.load("textures//button//Load_BRU.png")
     start_bth = Button(192, 84, sbp, sba)
 
-
-
     map_new = Map_block(25, 19, 1)
+    cursor = Cursor(map_new)
 
     display_widht = 800
     display_height = 600

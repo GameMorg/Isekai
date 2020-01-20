@@ -24,3 +24,20 @@ class Map_block():
                 self.block[i].append(r)
 
 
+def land_cart(chank, max_x, max_y):
+    x = 0
+    y = 0
+    for elem in chank:
+        y += 1
+        for i in elem:
+            x += 1
+            if y > max_y:
+                elem.pop(x)
+                elem.insert(x, 1)
+            else:
+                pass
+
+            if x >= max_x:
+                x = -1
+
+    return chank
