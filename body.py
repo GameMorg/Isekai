@@ -82,12 +82,14 @@ def print_chank(chank, block_size, num_chank):
     for elem in chank:
         y += 1
         for i in elem:
+            x += 1
             if i == 1:
-                x_b = x * block_size
-                tmp = [x_b]
+                x_b = int(x) * 32
+                y_b = int(y) * 32
+                tmp = [x_b, y_b]
                 list_map.append(tmp)
-                if x >= len(elem):
-                    x = 1
+            if x >= len(elem):
+                x = 1
         if y >= len(chank):
             y = 1
     return list_map
@@ -105,9 +107,9 @@ def main():
 
     # init map
     earst = pygame.image.load("textures//block//earst.jpg")
-    chank_blok = Map_block(25, 19, 0)
+    chank_blok = Map_block(20, 19, 0)
     blok_size = (32, 32)
-    chank = land_cart(chank_blok.block, 18, 18)
+    chank = land_cart(chank_blok.block, 10, 10)
 
     # init button
     x = 100
@@ -147,7 +149,8 @@ def main():
         tmp = print_chank(chank, blok_size, chank_blok.numb)
         for elem in tmp:
             x_b = elem[0]
-            win.blit(earst, x_b)
+            y_b = elem[1]
+            win.blit(earst, (x_b, y_b))
         # hero
         pygame.draw.rect(win, (0, 0, 255), (hero.x, hero.y, widht, height))
         pygame.display.update()
