@@ -163,10 +163,11 @@ def main():
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT] and hero.x > 10:
+        if keys[pygame.K_a] and hero.x > 10 or keys[pygame.K_LEFT] and hero.x > 10:
             hero.x_set(-speed)
 
-        if keys[pygame.K_RIGHT] and hero.x < display_widht - 10 - widht:
+        if keys[pygame.K_d] and hero.x < display_widht - 10 - widht or\
+                keys[pygame.K_RIGHT] and hero.x < display_widht - 10 - widht:
             hero.x_set(speed)
 
         if keys[pygame.K_F5]:
