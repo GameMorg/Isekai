@@ -163,7 +163,8 @@ def main():
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a] and hero.x > 10 or keys[pygame.K_LEFT] and hero.x > 10:
+        if keys[pygame.K_a] and hero.x > 10 or\
+                keys[pygame.K_LEFT] and hero.x > 10:
             hero.x_set(-speed)
 
         if keys[pygame.K_d] and hero.x < display_widht - 10 - widht or\
@@ -172,9 +173,11 @@ def main():
 
         if keys[pygame.K_F5]:
             save.save('x', hero.x)
+            save.save('hero', hero)
 
         if keys[pygame.K_F8]:
-            hero.x = save.load('x')
+            hero = save.load('hero')
+
 
         win.fill((255, 255, 255))
         # map
