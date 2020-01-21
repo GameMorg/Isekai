@@ -1,6 +1,5 @@
 import pygame
 from save_game import *
-from cursor import *
 
 
 class Button():
@@ -82,9 +81,16 @@ def print_chank(chank, x, y):
     for elem in chank:
         for i in elem:
             if i == 1:
+                block = 1
                 x_b = int(x) * 32
                 y_b = int(y) * 32
-                tmp = [x_b, y_b]
+                tmp = [block, x_b, y_b]
+                list_map.append(tmp)
+            elif i == 2:
+                block = 2
+                x_b = int(x) * 32
+                y_b = int(y) * 32
+                tmp = [block, x_b, y_b]
                 list_map.append(tmp)
             x += 1
             if x >= len(elem):
@@ -107,8 +113,7 @@ def main():
 
     # init map
     earst = pygame.image.load("textures//block//earst.jpg")
-    chank_blok = Map_block(25, 19, 0)
-    blok_size = (32, 32)
+    dirt = pygame.image.load("textures//block//dirt.jpg")
     chank = [
         [],
         [],
@@ -123,6 +128,7 @@ def main():
         [],
         [],
         [],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -133,14 +139,12 @@ def main():
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-
 
     ]
 
     # init button
     x = 100
-    y = display_height / 1.3
+    y = 353
     widht = 32
     height = 64
     speed = 5
@@ -175,9 +179,15 @@ def main():
         # map
         tmp = print_chank(chank, 25, 19)
         for elem in tmp:
-            x_b = elem[0]
-            y_b = elem[1]
-            win.blit(earst, (x_b, y_b))
+            block = elem[0]
+            if block == 1:
+                x_b = elem[1]
+                y_b = elem[2]
+                win.blit(earst, (x_b, y_b))
+            elif block == 2:
+                x_b = elem[1]
+                y_b = elem[2]
+                win.blit(dirt, (x_b, y_b))
         # hero
         pygame.draw.rect(win, (0, 0, 255), (hero.x, hero.y, widht, height))
         pygame.display.update()
@@ -202,9 +212,6 @@ def menu():
     sbp = pygame.image.load('textures//button//load_B2RU.png')
     sba = pygame.image.load("textures//button//Load_BRU.png")
     start_bth = Button(192, 84, sbp, sba)
-
-    map_new = Map_block(25, 19, 1)
-    cursor = Cursor(map_new)
 
     display_widht = 800
     display_height = 600
