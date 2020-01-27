@@ -1,5 +1,6 @@
 import pygame
 from save_game import *
+from player import *
 
 
 class Button():
@@ -43,27 +44,13 @@ class Button():
 
 
 class Block():
-    def __init__(self):
-        pass
-
-    def draw(self):
-        pass
-
-
-class Hero(object):
-    """docstring for Hero"""
-
-    def __init__(self, x, y, speed):
-        super(Hero, self).__init__()
+    def __init__(self, x, y, num):
+        self.width = 32
+        self.height = 32
         self.x = x
         self.y = y
-        self.speed = speed
-
-    def x_set(self, x):
-        self.x += x
-
-    def y(self, y):
-        self.y += y
+        self.num = num
+        self.rect = pygame.Rect(x, y, self.width, self.height)
 
 
 class Camera(object):
@@ -74,31 +61,44 @@ class Camera(object):
         self.arg = arg
 
 
-def print_chank(chank, x, y):
+def chek_collsion(barriers, hero):
+    for barrier in barriers:
+        if hero.y + hero.height > barrier.y:
+            if barrier.x < hero.x < barrier.x + barrier.width:
+                return False
+            elif barrier.x < hero.x + hero.width < barrier.x + barrier.width:
+                return False
+    return True
+
+
+def print_chank(chank, init_block):
     x = 0
     y = 0
-    list_map = []
+    block_arr = []
     for elem in chank:
         for i in elem:
             if i == 1:
                 block = 1
                 x_b = int(x) * 32
                 y_b = int(y) * 32
-                tmp = [block, x_b, y_b]
-                list_map.append(tmp)
+                block_arr.append(init_block(x_b, y_b, block))
             elif i == 2:
                 block = 2
                 x_b = int(x) * 32
                 y_b = int(y) * 32
-                tmp = [block, x_b, y_b]
-                list_map.append(tmp)
+                block_arr.append(init_block(x_b, y_b, block))
+            elif i == 3:
+                block = 3
+                x_b = int(x) * 32
+                y_b = int(y) * 32
+                block_arr.append(init_block(x_b, y_b, block))
             x += 1
             if x >= len(elem):
                 x = 0
         y += 1
         if y >= len(chank):
             y = 0
-    return list_map
+    return block_arr
 
 
 def main():
@@ -114,6 +114,7 @@ def main():
     # init map
     earst = pygame.image.load("textures//block//earst.jpg")
     dirt = pygame.image.load("textures//block//dirt.jpg")
+    stone = pygame.image.load("textures//block//stone.jpg")
     chank = [
         [],
         [],
@@ -125,32 +126,34 @@ def main():
         [],
         [],
         [],
-        [],
-        [],
-        [],
-        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
+
 
     ]
 
-    # init button
-    x = 100
-    y = 353
+    map_arr = print_chank(chank, Block)
+
+    x = 0
+    y = 0
     widht = 32
     height = 64
-    speed = 5
+    speed = 10
 
     # init mob
     hero = Hero(x, y, speed)
+    up = False
+    left = False
+    right = False
 
     run = True
     while run:
@@ -158,42 +161,61 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                save.save("hero_x", hero.x)
+                #        save.save("hero_x", hero.x)
                 run = False
 
-        keys = pygame.key.get_pressed()
+            # e = pygame.key.get_pressed()
+            # if keys[pygame.K_a] and hero.x > 10 or \
+            #        keys[pygame.K_LEFT] and hero.x > 10:
+            #    hero.x_set(-speed)
 
-        if keys[pygame.K_a] and hero.x > 10 or\
-                keys[pygame.K_LEFT] and hero.x > 10:
-            hero.x_set(-speed)
+            # if keys[pygame.K_d] and hero.x < display_widht - 10 - widht or \
+            #        keys[pygame.K_RIGHT] and hero.x < display_widht - 10 - widht:
+            #    hero.x_set(speed)
 
-        if keys[pygame.K_d] and hero.x < display_widht - 10 - widht or\
-                keys[pygame.K_RIGHT] and hero.x < display_widht - 10 - widht:
-            hero.x_set(speed)
+            # if keys[pygame.K_F5]:
+            #    save.save('x', hero.x)
+            #    save.save('hero', hero)
 
-        if keys[pygame.K_F5]:
-            save.save('x', hero.x)
-            save.save('hero', hero)
+            # if keys[pygame.K_F8]:
+            #    hero = save.load('hero')
 
-        if keys[pygame.K_F8]:
-            hero = save.load('hero')
+            # terst
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+                up = True
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                left = True
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                right = True
+
+            if event.type == pygame.KEYUP and event.key == pygame.K_UP:
+                up = False
+            if event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
+                right = False
+            if event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
+                left = False
 
         win.fill((255, 255, 255))
         # map
-        tmp = print_chank(chank, 25, 19)
-        for elem in tmp:
-            block = elem[0]
+
+        for elem in map_arr:
+            block = elem.num
             if block == 1:
-                x_b = elem[1]
-                y_b = elem[2]
+                x_b = elem.x
+                y_b = elem.y
                 win.blit(earst, (x_b, y_b))
             elif block == 2:
-                x_b = elem[1]
-                y_b = elem[2]
+                x_b = elem.x
+                y_b = elem.y
                 win.blit(dirt, (x_b, y_b))
+            elif block == 3:
+                x_b = elem.x
+                y_b = elem.y
+                win.blit(stone, (x_b, y_b))
         # hero
-        pygame.draw.rect(win, (0, 0, 255), (hero.x, hero.y, widht, height))
+        # pygame.draw.rect(win, (0, 0, 255), (hero.x, hero.y, widht, height))
+        hero.update(left, right, up, map_arr)
         pygame.display.update()
 
     pygame.quit()
