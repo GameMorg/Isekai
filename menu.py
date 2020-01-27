@@ -1,6 +1,6 @@
 import pygame
 from save_game import *
-from platformerhabrahabr import *
+from main import *
 
 
 class Button():
