@@ -81,14 +81,14 @@ def main():
         "-                                                       -                                -",
         "-                                                       -                                -",
         "-                                                       -                                -",
-        "-                                                       -                                -",
-        "-                                                       ------------------------         -",
-        "-                                                       -                      -         -",
-        "-                                                       -                      --        -",
+        "-                                                       -*************                   -",
+        "-                              /                        ------------------------         -",
+        "-                              /                        -                      -         -",
+        "-                          //////                       -                      --        -",
         "-                      -----------                      -                                -",
         "-                     -------------                     -                                -",
         "-                    ---------------                                                     -",
-        "-                   -----------------                                                    -",
+        "-           ********-----------------++++++++++++++++++++++++                            -",
         "------------------------------------------------------------------------------------------"]
 
     timer = pygame.time.Clock()
@@ -96,7 +96,20 @@ def main():
     for row in level:  # вся строка
         for col in row:  # каждый символ
             if col == "-":
-                pf = Platform(x, y)
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+
+            elif col == "+":
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == "*":
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == "/":
+                pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
 
