@@ -8,7 +8,6 @@ from player import *
 from blocks import *
 from menu import *
 
-
 # Объявляем переменные
 WIN_WIDTH = 800  # Ширина создаваемого окна
 WIN_HEIGHT = 600  # Высота
@@ -104,7 +103,7 @@ def main():
         "-                                                       -                                -",
         "-                                                       -                                -",
         "-                                                       -*************                   -",
-        "-                              /                        ------------------------         -",
+        "-                                                       ------------------------         -",
         "-                              /                        -                      -         -",
         "-                          //////                       -                      --        -",
         "-                      -----------                      -                                -",
@@ -150,8 +149,6 @@ def main():
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
                 run = False
-            if e.type == KEYDOWN and e.key == K_ESCAPE:
-                pause(screen)
             if e.type == KEYDOWN and e.key == K_UP:
                 up = True
             if e.type == KEYDOWN and e.key == K_LEFT:
@@ -165,7 +162,8 @@ def main():
                 right = False
             if e.type == KEYUP and e.key == K_LEFT:
                 left = False
-
+            if e.type == KEYDOWN and e.key == K_ESCAPE:
+                pause(screen)
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
 
         camera.update(hero)  # центризируем камеру относительно персонажа
