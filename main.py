@@ -73,8 +73,10 @@ def main():
     # добавим звуков и музыки
     mixer.pre_init(44100, -16, 1, 512)
     mixer.init()
-    shag = mixer.Sound('sounds/environment/shag.ogg')
+    shag = mixer.Sound('sounds/music/fon.ogg')
     panche = mixer.Sound('sounds/environment/shag.ogg')
+    shag.set_volume(0.3)
+    shag.play(-1)
     #
 
     hero = Player(55, 55)  # создаем героя по (x,y) координатам
