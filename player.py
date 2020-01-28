@@ -5,6 +5,13 @@ from pygame import *
 import pyganim
 import os
 
+# sound
+mixer.pre_init(44100, -16, 1, 512)
+mixer.init()
+
+#
+
+
 MOVE_SPEED = 5
 WIDTH = 22
 HEIGHT = 32
@@ -68,16 +75,24 @@ class Player(sprite.Sprite):
         self.boltAnimJump = pyganim.PygAnimation(ANIMATION_JUMP)
         self.boltAnimJump.play()
 
+        # sound
+        self.shag = mixer.Sound('sounds/environment/panche.ogg')
+
     def update(self, left, right, up, platforms):
 
         if up:
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -JUMP_POWER
+                self.shag.play()
             self.image.fill(Color(COLOR))
             self.boltAnimJump.blit(self.image, (0, 0))
 
         if left:
             self.xvel = -MOVE_SPEED  # Лево = x- n
+            # sound
+
+            #
+
             self.image.fill(Color(COLOR))
             if up:  # для прыжка влево есть отдельная анимация
                 self.boltAnimJumpLeft.blit(self.image, (0, 0))

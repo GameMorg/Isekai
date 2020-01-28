@@ -70,6 +70,13 @@ def main():
     # будем использовать как фон
     bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
 
+    # добавим звуков и музыки
+    mixer.pre_init(44100, -16, 1, 512)
+    mixer.init()
+    shag = mixer.Sound('sounds/environment/shag.ogg')
+    panche = mixer.Sound('sounds/environment/shag.ogg')
+    #
+
     hero = Player(55, 55)  # создаем героя по (x,y) координатам
     left = right = False  # по умолчанию - стоим
     up = False
@@ -183,6 +190,9 @@ def main():
 
             if e.type == KEYDOWN and e.key == K_F8:
                 hero.rect = save.load('rect')
+
+            if e.type == KEYDOWN and e.key == K_e:
+                audio.play(1)
 
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
 
