@@ -8,6 +8,7 @@ from player import *
 from blocks import *
 from menu import *
 
+
 # Объявляем переменные
 WIN_WIDTH = 800  # Ширина создаваемого окна
 WIN_HEIGHT = 600  # Высота
@@ -38,6 +39,27 @@ def camera_configure(camera, target_rect):
     t = min(0, t)  # Не движемся дальше верхней границы
 
     return Rect(l, t, w, h)
+
+
+def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.otf', font_size=30):
+    font_type = pygame.font.Font(font_type, font_size)
+    text = font_type.render(message, True, font_color)
+    win.blit(text, (x, y))
+
+
+def pause(screen):
+    show = True
+
+    while show:
+        for e in event.get():
+            if e.type == QUIT:
+                show = False
+
+            if e.type == KEYDOWN and e.key == K_RETURN:
+                show = False
+
+        print_text('Pause, press Enter to continia...', 160, 300, screen)
+        display.update()
 
 
 def main():
@@ -128,6 +150,8 @@ def main():
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
                 run = False
+            if e.type == KEYDOWN and e.key == K_ESCAPE:
+                pause(screen)
             if e.type == KEYDOWN and e.key == K_UP:
                 up = True
             if e.type == KEYDOWN and e.key == K_LEFT:

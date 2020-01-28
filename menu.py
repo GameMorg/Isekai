@@ -1,6 +1,6 @@
 import pygame
 from save_game import *
-from main import *
+from main import main
 
 
 class Button():
