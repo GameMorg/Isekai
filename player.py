@@ -116,7 +116,7 @@ class Player(sprite.Sprite):
         if not self.onGround:
             self.yvel += GRAVITY
 
-        self.onGround = False;  # Мы не знаем, когда мы на земле((
+        self.onGround = False  # Мы не знаем, когда мы на земле((
         self.rect.y += self.yvel
         self.collide(0, self.yvel, platforms)
 
@@ -135,7 +135,10 @@ class Player(sprite.Sprite):
 
                 if yvel > 0:  # если падает вниз
                     self.rect.bottom = p.rect.top  # то не падает вниз
+
                     self.onGround = True  # и становится на что-то твердое
+                    if self.yvel > 10:
+                        self.shag.play()
                     self.yvel = 0  # и энергия падения пропадает
 
                 if yvel < 0:  # если движется вверх
