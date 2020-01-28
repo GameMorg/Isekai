@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Импортируем библиотеку pygame
+from save_game import *
 import pygame
 from pygame import *
 from player import *
@@ -104,14 +105,17 @@ def main():
         "-                                                       -                                -",
         "-                                                       -*************                   -",
         "-                                                       ------------------------         -",
-        "-                              /                        -                      -         -",
-        "-                          //////                       -                      --        -",
-        "-                      -----------                      -                                -",
-        "-                     -------------                     -                                -",
-        "-                    ---------------                                                     -",
+        "-                         aa   /                  t     -                      -         -",
+        "-                       aaa//////                 t     -                      --        -",
+        "-                      -----------                t     -                                -",
+        "-                     -------------               t     -                                -",
+        "-                    ---------------              t                                      -",
         "-           ********-----------------++++++++++++++++++++++++                            -",
         "------------------------------------------------------------------------------------------"]
 
+    # Sve File
+    save = Save('Save')
+    # /////
     timer = pygame.time.Clock()
     x = y = 0  # координаты
     for row in level:  # вся строка
@@ -130,6 +134,14 @@ def main():
                 entities.add(pf)
                 platforms.append(pf)
             elif col == "/":
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 'a':
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 't':
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
@@ -162,8 +174,16 @@ def main():
                 right = False
             if e.type == KEYUP and e.key == K_LEFT:
                 left = False
+
             if e.type == KEYDOWN and e.key == K_ESCAPE:
                 pause(screen)
+
+            if e.type == KEYDOWN and e.key == K_F5:
+                save.save('rect', hero.rect)
+
+            if e.type == KEYDOWN and e.key == K_F8:
+                hero.rect = save.load('rect')
+
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
 
         camera.update(hero)  # центризируем камеру относительно персонажа

@@ -22,5 +22,9 @@ class Platform(sprite.Sprite):
             self.image = image.load("%s/textures/block/earst.jpg" % ICON_DIR)
         elif block == "/":
             self.image = image.load("%s/textures/block/stone.jpg" % ICON_DIR)
+        elif block == 'a':
+            self.image = image.load("%s/textures/block/pesok.jpg" % ICON_DIR)
+        elif block == 't':
+            self.image = image.load("%s/textures/block/treeeee.png" % ICON_DIR)
 
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
