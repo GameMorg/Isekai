@@ -76,21 +76,33 @@ class Player(sprite.Sprite):
         self.boltAnimJump.play()
 
         # sound
-        self.shag = mixer.Sound('sounds/environment/panche.ogg')
+        self.panche = mixer.Sound('sounds/environment/panche.ogg')
+        self.shag = mixer.Sound('sounds/environment/shag.ogg')
+        self.shag_max = 4
+        self.shag_val = 0
+        #
+        # say hero
+        self.mosue = mouse.get_pos()
+        self.click = mouse.get_pressed()
+
 
     def update(self, left, right, up, platforms):
 
         if up:
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -JUMP_POWER
-                self.shag.play()
             self.image.fill(Color(COLOR))
             self.boltAnimJump.blit(self.image, (0, 0))
 
         if left:
             self.xvel = -MOVE_SPEED  # Лево = x- n
             # sound
-
+            if self.onGround:
+                if self.shag_val >= self.shag_max:
+                    self.shag.play()
+                    self.shag_val = 0
+                else:
+                    self.shag_val += 1
             #
 
             self.image.fill(Color(COLOR))
@@ -102,6 +114,16 @@ class Player(sprite.Sprite):
         if right:
             self.xvel = MOVE_SPEED  # Право = x + n
             self.image.fill(Color(COLOR))
+
+            # sound
+            if self.onGround:
+                if self.shag_val >= self.shag_max:
+                    self.shag.play()
+                    self.shag_val = 0
+                else:
+                    self.shag_val += 1
+            #
+
             if up:
                 self.boltAnimJumpRight.blit(self.image, (0, 0))
             else:
@@ -123,6 +145,7 @@ class Player(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
 
+
     def collide(self, xvel, yvel, platforms):
         for p in platforms:
             if sprite.collide_rect(self, p):  # если есть пересечение платформы с игроком
@@ -138,7 +161,7 @@ class Player(sprite.Sprite):
 
                     self.onGround = True  # и становится на что-то твердое
                     if self.yvel > 10:
-                        self.shag.play()
+                        self.panche.play()
                     self.yvel = 0  # и энергия падения пропадает
 
                 if yvel < 0:  # если движется вверх

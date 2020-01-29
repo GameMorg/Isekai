@@ -61,8 +61,7 @@ def pause(screen):
         print_text('Pause, press Enter to continia...', 160, 300, screen)
         display.update()
 
-
-def main():
+def main(save=False):
     pygame.init()  # Инициация PyGame, обязательная строчка
     screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
@@ -76,7 +75,7 @@ def main():
     shag = mixer.Sound('sounds/music/fon.ogg')
     panche = mixer.Sound('sounds/environment/shag.ogg')
     shag.set_volume(0.3)
-    shag.play(-1)
+    #shag.play(-1)
     #
 
     hero = Player(55, 55)  # создаем героя по (x,y) координатам
@@ -119,11 +118,15 @@ def main():
         "-                         +                       t     -                                -",
         "-                        +                        t     -                                -",
         "-                       +                         t                                      -",
-        "-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                            -",
+        "-+++++++++++++++++++++++*++++++++++++++++++++++++++++++++++++                            -",
         "------------------------------------------------------------------------------------------"]
 
     # Sve File
-    save = Save('Save')
+    if save:
+        save = Save('Save')
+        hero.rect = save.load('rect')
+    # load save
+    save_new = Save('Save_new')
     # /////
     timer = pygame.time.Clock()
     x = y = 0  # координаты
@@ -188,10 +191,10 @@ def main():
                 pause(screen)
 
             if e.type == KEYDOWN and e.key == K_F5:
-                save.save('rect', hero.rect)
+                save_new.save('rect', hero.rect)
 
             if e.type == KEYDOWN and e.key == K_F8:
-                hero.rect = save.load('rect')
+                hero.rect = save_new.load('rect')
 
 
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
