@@ -78,13 +78,11 @@ class Player(sprite.Sprite):
         # sound
         self.panche = mixer.Sound('sounds/environment/panche.ogg')
         self.shag = mixer.Sound('sounds/environment/shag.ogg')
+        self.aaaaa = mixer.Sound('mario/aaa.ogg')
         self.shag_max = 4
         self.shag_val = 0
         #
         # say hero
-        self.mosue = mouse.get_pos()
-        self.click = mouse.get_pressed()
-
 
     def update(self, left, right, up, platforms):
 
@@ -145,6 +143,14 @@ class Player(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
 
+        self.mosue = mouse.get_pos()
+        self.click = mouse.get_pressed()
+        if self.rect.x < self.mosue[0] < self.rect.x + self.rect.width:
+            if self.rect.y < self.mosue[1] < self.rect.y + self.rect.height:
+                if self.click[0] == 1:
+                    time.delay(300)
+                    self.aaaaa.play()
+                    print('1')
 
     def collide(self, xvel, yvel, platforms):
         for p in platforms:
