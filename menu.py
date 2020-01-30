@@ -79,7 +79,6 @@ def menu():
     win = pygame.display.set_mode((display_widht, display_height))
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
 
-    h_x = save.load('hero_x')
 
     # start menu
     while show:

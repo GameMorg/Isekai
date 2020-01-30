@@ -86,6 +86,7 @@ class Player(sprite.Sprite):
         #
         # say hero
         self.num_f = 0
+        self.old_time_shag = 0
     def update(self, left, right, up, platforms):
 
         if up:
@@ -98,11 +99,10 @@ class Player(sprite.Sprite):
             self.xvel = -MOVE_SPEED  # Лево = x- n
             # sound
             if self.onGround:
-                if self.shag_val >= self.shag_max:
+                self.new_time = time.get_ticks()
+                if self.new_time - self.old_time_shag > 300:
+                    self.old_time_shag = self.new_time
                     self.shag.play()
-                    self.shag_val = 0
-                else:
-                    self.shag_val += 1
             #
 
             self.image.fill(Color(COLOR))
@@ -117,11 +117,10 @@ class Player(sprite.Sprite):
 
             # sound
             if self.onGround:
-                if self.shag_val >= self.shag_max:
+                self.new_time = time.get_ticks()
+                if self.new_time - self.old_time_shag > 300:
+                    self.old_time_shag = self.new_time
                     self.shag.play()
-                    self.shag_val = 0
-                else:
-                    self.shag_val += 1
             #
 
             if up:
