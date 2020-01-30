@@ -76,6 +76,8 @@ def main(save=False):
     panche = mixer.Sound('sounds/environment/shag.ogg')
     shag.set_volume(0.3)
     #shag.play(-1)
+    old_time = 0
+    click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
     #
 
     hero = Player(55, 55)  # создаем героя по (x,y) координатам
@@ -195,6 +197,12 @@ def main(save=False):
 
             if e.type == KEYDOWN and e.key == K_F8:
                 hero.rect = save_new.load('rect')
+
+            if e.type == KEYDOWN and e.key == K_e:
+                new_time = time.get_ticks()
+                if new_time - old_time > 1000:
+                    old_time = new_time
+                    panche.play()
 
 
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
