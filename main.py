@@ -114,6 +114,11 @@ def interface(screen, bg):
     show = True
     button_hero = Button(200, 75)
     characteristic = Button(200, 75)
+    enventory_arr = []
+    for i in range(5):
+        box_item = Button(30, 30)
+        enventory_arr.append(box_item)
+
     while show:
         for e in event.get():
             if e.type == QUIT:
@@ -125,6 +130,13 @@ def interface(screen, bg):
         button_hero.draw(0, 600 - 75, 'stats', screen, ss)
         if button_hero.click_one:
             characteristic.draw(0, 600 - 150, 'hp = 100/100', screen, ss)
+        i = 0
+        for e in enventory_arr:
+            i += 1
+            e.draw(50*i, 100, '', screen)
+            if i >= len(enventory_arr):
+                i = 0
+
         display.update()
 
 def ss():
@@ -248,18 +260,18 @@ def main(save=False):
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
                 run = False
-            if e.type == KEYDOWN and e.key == K_UP:
+            if e.type == KEYDOWN and e.key == K_w:
                 up = True
-            if e.type == KEYDOWN and e.key == K_LEFT:
+            if e.type == KEYDOWN and e.key == K_a:
                 left = True
-            if e.type == KEYDOWN and e.key == K_RIGHT:
+            if e.type == KEYDOWN and e.key == K_d:
                 right = True
 
-            if e.type == KEYUP and e.key == K_UP:
+            if e.type == KEYUP and e.key == K_w:
                 up = False
-            if e.type == KEYUP and e.key == K_RIGHT:
+            if e.type == KEYUP and e.key == K_d:
                 right = False
-            if e.type == KEYUP and e.key == K_LEFT:
+            if e.type == KEYUP and e.key == K_a:
                 left = False
 
             if e.type == KEYDOWN and e.key == K_ESCAPE:
