@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Импортируем библиотеку pygame
-from save_game import *
-import pygame
-from pygame import *
+
 from player import *
 from blocks import *
 from menu import *
@@ -15,6 +13,56 @@ WIN_HEIGHT = 600  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
+class Button():
+    def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False):
+        self.widht = widht
+        self.height = height
+        self.ineractive_colar = ineractive_colar
+        self.active_color = active_color
+        self.save = save
+        self.click_one = False
+
+    def draw(self, x, y, message, win, action=None):
+        mosue = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if x < mosue[0] < x + self.widht:
+            if y < mosue[1] < y + self.height:
+                pygame.draw.rect(win, (23, 204, 58), (x, y, self.widht, self.height))
+                if click[0] == 1 and action is not None:
+                    pygame.time.delay(300)
+                    if self.click_one:
+                        self.click_one = False
+                    else:
+                        self.click_one = True
+                    action()
+            else:
+                pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
+        else:
+            pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
+        print_text(message, x + 10, y + 10, win)
+
+    def blitx(self, win, image_pas, image_active, x, y, action=None,
+              click_sound=mixer.Sound('sounds//environment//mm_button.ogg')):
+        mosue = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        mixer.pre_init(44100, -16, 1, 512)
+        mixer.init()
+        if x < mosue[0] < x + self.widht:
+            if y < mosue[1] < y + self.height:
+                win.blit(image_active, (x, y))
+
+                if click[0] == 1 and action is not None:
+
+                    pygame.time.delay(300)
+                    self.click_one = True
+                    click_sound.play()
+                    if self.save:
+                        action(self.save)
+                    action()
+            else:
+                win.blit(image_pas, (x, y))
+        else:
+            win.blit(image_pas, (x, y))
 
 class Camera(object):
     def __init__(self, camera_func, width, height):
@@ -60,6 +108,27 @@ def pause(screen):
 
         print_text('Pause, press Enter to continia...', 160, 300, screen)
         display.update()
+
+
+def interface(screen, bg):
+    show = True
+    button_hero = Button(200, 75)
+    characteristic = Button(200, 75)
+    while show:
+        for e in event.get():
+            if e.type == QUIT:
+                show = False
+            if e.type == KEYDOWN and e.key == K_ESCAPE:
+                show = False
+
+        screen.blit(bg, (0, 0))
+        button_hero.draw(0, 600 - 75, 'stats', screen, ss)
+        if button_hero.click_one:
+            characteristic.draw(0, 600 - 150, 'hp = 100/100', screen, ss)
+        display.update()
+
+def ss():
+    pass
 
 def main(save=False):
     pygame.init()  # Инициация PyGame, обязательная строчка
@@ -207,6 +276,9 @@ def main(save=False):
                 if new_time - old_time > 1000:
                     old_time = new_time
                     panche.play()
+
+            if e.type == KEYDOWN and e.key == K_TAB:
+                interface(screen, bg)
 
 
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
