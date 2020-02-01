@@ -70,13 +70,17 @@ def menu():
     sba = pygame.image.load("textures//button//Load_BRU.png")
     lbp = pygame.image.load('textures//button//load_B2.png')
     lba = pygame.image.load("textures//button//Load_B.png")
+
     start_bth = Button(192, 84, sbp, sba)
 
     load_bth = Button(192, 84, lbp, lba, save=True)
 
+    exit_buttonn = Button(192, 84)
+
+
     display_widht = 800
     display_height = 600
-    win = pygame.display.set_mode((display_widht, display_height))
+    win = pygame.display.set_mode((display_widht, display_height), pygame.FULLSCREEN)
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
 
 
@@ -85,10 +89,10 @@ def menu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 show = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                show = False
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    pass
+
 
         win.blit(skale, (0, 0))
         start_bth.blitx(win, sbp, sba, display_widht / 2.75, display_height / 6, main)

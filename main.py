@@ -9,36 +9,40 @@ from menu import *
 
 # Объявляем переменные
 WIN_WIDTH = 800  # Ширина создаваемого окна
-WIN_HEIGHT = 600  # Высота
+WIN_HEIGHT = 600 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
+
 class Button():
-    def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False):
+    def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False, box=False, item=False):
         self.widht = widht
         self.height = height
         self.ineractive_colar = ineractive_colar
         self.active_color = active_color
         self.save = save
         self.click_one = False
+        self.box = box
+        self.item = item
 
     def draw(self, x, y, message, win, action=None):
         mosue = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x < mosue[0] < x + self.widht:
             if y < mosue[1] < y + self.height:
-                pygame.draw.rect(win, (23, 204, 58), (x, y, self.widht, self.height))
+                pygame.draw.rect(win, self.ineractive_colar, (x, y, self.widht, self.height))
                 if click[0] == 1 and action is not None:
                     pygame.time.delay(300)
                     if self.click_one:
                         self.click_one = False
                     else:
                         self.click_one = True
+
                     action()
             else:
-                pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
+                pygame.draw.rect(win, self.active_color, (x, y, self.widht, self.height))
         else:
-            pygame.draw.rect(win, (13, 162, 58), (x, y, self.widht, self.height))
+            pygame.draw.rect(win, self.active_color, (x, y, self.widht, self.height))
         print_text(message, x + 10, y + 10, win)
 
     def blitx(self, win, image_pas, image_active, x, y, action=None,
@@ -64,6 +68,7 @@ class Button():
         else:
             win.blit(image_pas, (x, y))
 
+
 class Camera(object):
     def __init__(self, camera_func, width, height):
         self.camera_func = camera_func
@@ -74,6 +79,10 @@ class Camera(object):
 
     def update(self, target):
         self.state = self.camera_func(self.state, target.rect)
+
+
+
+
 
 
 def camera_configure(camera, target_rect):
@@ -116,8 +125,10 @@ def interface(screen, bg):
     characteristic = Button(200, 75)
     enventory_arr = []
     for i in range(5):
-        box_item = Button(30, 30)
+        box_item = Button(30, 30, box=True)
         enventory_arr.append(box_item)
+
+    item = Button(20, 20, active_color=(255, 0, 0), ineractive_colar=(255, 117, 117))
 
     while show:
         for e in event.get():
@@ -133,18 +144,23 @@ def interface(screen, bg):
         i = 0
         for e in enventory_arr:
             i += 1
-            e.draw(50*i, 100, '', screen)
+            e.draw(50 * i, 100, '', screen)
+            if e.box and i == 1:
+                item.draw(50+5, 105, '', screen)
+
             if i >= len(enventory_arr):
                 i = 0
 
         display.update()
 
+
 def ss():
     pass
 
+
 def main(save=False):
     pygame.init()  # Инициация PyGame, обязательная строчка
-    screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
+    screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
     # будем использовать как фон
@@ -156,7 +172,7 @@ def main(save=False):
     shag = mixer.Sound('sounds/music/fon.ogg')
     panche = mixer.Sound('sounds/environment/shag.ogg')
     shag.set_volume(0.3)
-    #shag.play(-1)
+    # shag.play(-1)
     old_time = 0
     click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
     #
@@ -275,7 +291,7 @@ def main(save=False):
                 left = False
 
             if e.type == KEYDOWN and e.key == K_ESCAPE:
-                pause(screen)
+                run = False
 
             if e.type == KEYDOWN and e.key == K_F5:
                 save_new.save('rect', hero.rect)
@@ -291,7 +307,6 @@ def main(save=False):
 
             if e.type == KEYDOWN and e.key == K_TAB:
                 interface(screen, bg)
-
 
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
 
