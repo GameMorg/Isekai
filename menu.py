@@ -78,8 +78,8 @@ def menu():
     exit_buttonn = Button(192, 84)
 
 
-    display_widht = 800
-    display_height = 600
+    display_widht = 1920
+    display_height = 1080
     win = pygame.display.set_mode((display_widht, display_height), pygame.FULLSCREEN)
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
 
@@ -94,7 +94,8 @@ def menu():
 
 
 
+
         win.blit(skale, (0, 0))
-        start_bth.blitx(win, sbp, sba, display_widht / 2.75, display_height / 6, main)
-        load_bth.blitx(win, lbp, lba, display_widht/2.75, display_height /3, main)
+        start_bth.blitx(win, sbp, sba, display_widht / 2 - 192/2, 100, main)
+        load_bth.blitx(win, lbp, lba, display_widht/2 - 192/2, 200, main)
         pygame.display.update()

@@ -8,8 +8,8 @@ from blocks import *
 from menu import *
 
 # Объявляем переменные
-WIN_WIDTH = 800  # Ширина создаваемого окна
-WIN_HEIGHT = 600 # Высота
+WIN_WIDTH = 1920  # Ширина создаваемого окна
+WIN_HEIGHT = 1080 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
@@ -307,6 +307,7 @@ def main(save=False):
 
             if e.type == KEYDOWN and e.key == K_TAB:
                 interface(screen, bg)
+
 
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
 
