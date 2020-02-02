@@ -8,10 +8,11 @@ from blocks import *
 from menu import *
 
 # Объявляем переменные
-WIN_WIDTH = 1920  # Ширина создаваемого окна
-WIN_HEIGHT = 1080 # Высота
+WIN_WIDTH = 1280  # Ширина создаваемого окна
+WIN_HEIGHT = 720 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
+
 
 
 class Button():
@@ -138,9 +139,9 @@ def interface(screen, bg):
                 show = False
 
         screen.blit(bg, (0, 0))
-        button_hero.draw(0, 600 - 75, 'stats', screen, ss)
+        button_hero.draw(0, WIN_HEIGHT - 75, 'stats', screen, ss)
         if button_hero.click_one:
-            characteristic.draw(0, 600 - 150, 'hp = 100/100', screen, ss)
+            characteristic.draw(0, WIN_HEIGHT - button_hero.height - 75, 'hp = 100/100', screen, ss)
         i = 0
         for e in enventory_arr:
             i += 1
@@ -159,6 +160,7 @@ def ss():
 
 
 def main(save=False):
+    global WIN_WIDTH, WIN_HEIGHT
     pygame.init()  # Инициация PyGame, обязательная строчка
     screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
@@ -210,14 +212,14 @@ def main(save=False):
         "-                                                       -                                -",
         "-                                                       -                                -",
         "-                                                       -                                -",
-        "-                                                       -*************                   -",
-        "-                                                       ------------------------         -",
-        "-                                                 t     -                      -         -",
-        "-                         d+                      t     -                      --        -",
-        "-                        d+**                     t     -                                -",
-        "-                       d+****                    t     -                                -",
-        "-                      d+******                   t                                      -",
-        "-+++++++++++++++++++++++********+++++++++++++++++++++++++++++                            -",
+        "-                                                       -                                -",
+        "-                                                       ---------   ----------------------",
+        "-                                         t       t     -          -                     -",
+        "-                         a               t       t     -         -                      -",
+        "-                        a***             t       t     -        -                       -",
+        "-                       a*****            t       t     -       -                        -",
+        "-                      a*******           t       t            -                         -",
+        "-+++++++++++++++++++++++********+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-",
         "------------------------------------------------------------------------------------------"]
 
     # Sve File

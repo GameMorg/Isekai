@@ -14,6 +14,8 @@ class Platform(sprite.Sprite):
         sprite.Sprite.__init__(self)
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         self.image.fill(Color(PLATFORM_COLOR))
+        self.fon_block = False
+        self.poly_block = False
         if block == "-":
             self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)
         elif block == "+":
@@ -26,7 +28,10 @@ class Platform(sprite.Sprite):
             self.image = image.load("%s/textures/block/pesok.jpg" % ICON_DIR)
         elif block == 't':
             self.image = image.load("%s/textures/block/treeeee.png" % ICON_DIR)
+            self.fon_block = True
         elif block == 'd':
             self.image = image.load("%s/textures/block/land_grass_L.png" % ICON_DIR)
+            self.poly_block = True
 
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+

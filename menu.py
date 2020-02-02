@@ -58,9 +58,23 @@ def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.ot
     win.blit(text, (x, y))
 
 
-def menu():
+def setting():
     show = True
 
+    while show:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                show = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                show = False
+
+        win.blit(skale, (0, 0))
+        pygame.display.update()
+
+
+def menu():
+    show = True
+    global win, skale
     pygame.init()
     # init game
 
@@ -75,15 +89,12 @@ def menu():
 
     load_bth = Button(192, 84, lbp, lba, save=True)
 
-    exit_buttonn = Button(192, 84)
+    setting_buttonn = Button(192, 84)
 
-
-    display_widht = 1920
-    display_height = 1080
+    display_widht = 1280
+    display_height = 720
     win = pygame.display.set_mode((display_widht, display_height), pygame.FULLSCREEN)
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
-
-
     # start menu
     while show:
         for event in pygame.event.get():
@@ -92,10 +103,8 @@ def menu():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 show = False
 
-
-
-
         win.blit(skale, (0, 0))
-        start_bth.blitx(win, sbp, sba, display_widht / 2 - 192/2, 100, main)
-        load_bth.blitx(win, lbp, lba, display_widht/2 - 192/2, 200, main)
+        start_bth.blitx(win, sbp, sba, display_widht / 2 - 192 / 2, 100, main)
+        load_bth.blitx(win, lbp, lba, display_widht / 2 - 192 / 2, 200, main)
+        setting_buttonn.draw(display_widht / 2 - 192 / 2, 300, 'setting', win, setting)
         pygame.display.update()
