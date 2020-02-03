@@ -34,15 +34,15 @@ class Button():
               click_sound=mixer.Sound('sounds//environment//mm_button.ogg')):
         mosue = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        mixer.pre_init(44100, -16, 1, 512)
-        mixer.init()
+        #mixer.pre_init(44100, -16, 1, 512)
+        #mixer.init()
         if x < mosue[0] < x + self.widht:
             if y < mosue[1] < y + self.height:
                 win.blit(image_active, (x, y))
 
                 if click[0] == 1 and action is not None:
                     pygame.time.delay(300)
-                    click_sound.play()
+                    #click_sound.play()
                     if self.save:
                         action(self.save)
                     action()
@@ -79,7 +79,7 @@ def menu():
     # init game
 
     save = Save("Save")
-    meun_backr = pygame.image.load('textures//background//backr.jpg')
+    meun_backr = pygame.image.load('textures//background//background menu 1.jpg')
     sbp = pygame.image.load('textures//button//load_B2RU.png')
     sba = pygame.image.load("textures//button//Load_BRU.png")
     lbp = pygame.image.load('textures//button//load_B2.png')

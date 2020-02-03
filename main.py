@@ -9,14 +9,14 @@ from menu import *
 
 # Объявляем переменные
 WIN_WIDTH = 1280  # Ширина создаваемого окна
-WIN_HEIGHT = 720 # Высота
+WIN_HEIGHT = 720  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
 
-
 class Button():
-    def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False, box=False, item=False):
+    def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False, box=False,
+                 item=False):
         self.widht = widht
         self.height = height
         self.ineractive_colar = ineractive_colar
@@ -82,10 +82,6 @@ class Camera(object):
         self.state = self.camera_func(self.state, target.rect)
 
 
-
-
-
-
 def camera_configure(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera
@@ -123,7 +119,7 @@ def pause(screen):
 def interface(screen, bg):
     show = True
     button_hero = Button(200, 75)
-    characteristic = Button(200, 75)
+    characteristic = Button(200, 75*5)
     enventory_arr = []
     for i in range(5):
         box_item = Button(30, 30, box=True)
@@ -141,13 +137,13 @@ def interface(screen, bg):
         screen.blit(bg, (0, 0))
         button_hero.draw(0, WIN_HEIGHT - 75, 'stats', screen, ss)
         if button_hero.click_one:
-            characteristic.draw(0, WIN_HEIGHT - button_hero.height - 75, 'hp = 100/100', screen, ss)
+            characteristic.draw(0, WIN_HEIGHT - button_hero.height - characteristic.height, 'hp = 100/100', screen, ss)
         i = 0
         for e in enventory_arr:
             i += 1
             e.draw(50 * i, 100, '', screen)
             if e.box and i == 1:
-                item.draw(50+5, 105, '', screen)
+                item.draw(50 + 5, 105, '', screen)
 
             if i >= len(enventory_arr):
                 i = 0
@@ -167,16 +163,19 @@ def main(save=False):
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
     # будем использовать как фон
     bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
+    bgbl = image.load('textures//background//background menu 1.jpg')
+    skale = transform.scale(bgbl, (WIN_WIDTH, WIN_HEIGHT))
 
     # добавим звуков и музыки
-    mixer.pre_init(44100, -16, 1, 512)
-    mixer.init()
-    shag = mixer.Sound('sounds/music/fon.ogg')
-    panche = mixer.Sound('sounds/environment/shag.ogg')
-    shag.set_volume(0.3)
+    # mixer.pre_init(44100, -16, 1, 512)
+    # mixer.init()
+    # shag = mixer.Sound('sounds/music/fon.ogg')
+    # panche = mixer.Sound('sounds/environment/shag.ogg')
+    # shag.set_volume(0.3)
     # shag.play(-1)
-    old_time = 0
-    click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
+    #old_time = 0
+    #click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
+    settings_menu = False
     #
 
     hero = Player(55, 55)  # создаем героя по (x,y) координатам
@@ -228,6 +227,10 @@ def main(save=False):
         hero.rect = save.load('rect')
     # load save
     save_new = Save('Save_new')
+    #
+
+    #
+
     # /////
     timer = pygame.time.Clock()
     x = y = 0  # координаты
@@ -301,23 +304,34 @@ def main(save=False):
             if e.type == KEYDOWN and e.key == K_F8:
                 hero.rect = save_new.load('rect')
 
-            if e.type == KEYDOWN and e.key == K_e:
-                new_time = time.get_ticks()
-                if new_time - old_time > 1000:
-                    old_time = new_time
-                    panche.play()
+            #if e.type == KEYDOWN and e.key == K_e:
+            #    new_time = time.get_ticks()
+            #    if new_time - old_time > 1000:
+            #        old_time = new_time
+            #        panche.play()
 
             if e.type == KEYDOWN and e.key == K_TAB:
                 interface(screen, bg)
 
-
-        screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
-
+            if e.type == KEYDOWN and e.key == K_F3:
+                if settings_menu:
+                    settings_menu = False
+                else:
+                    settings_menu = True
+        hero_x_message = hero.rect.x
+        hero_y_message = hero.rect.y
+        screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
         hero.update(left, right, up, platforms)  # передвижение
+
         # entities.draw(screen) # отображение
         for e in entities:
             screen.blit(e.image, camera.apply(e))
+        if settings_menu:
+            hero_x_message //= 32
+            hero_y_message //= 32
+            print_text(str(hero_x_message), 0, 0, screen)
+            print_text(str(hero_y_message), 0, 30, screen)
 
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
