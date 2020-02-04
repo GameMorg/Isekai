@@ -27,6 +27,11 @@ class Button():
         self.item = item
 
     def draw(self, x, y, message, win, action=None):
+        # inventory
+        self.box = False
+        self.item = False
+        self.box_item = False
+        #
         mosue = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x < mosue[0] < x + self.widht:
@@ -34,11 +39,11 @@ class Button():
                 pygame.draw.rect(win, self.ineractive_colar, (x, y, self.widht, self.height))
                 if click[0] == 1 and action is not None:
                     pygame.time.delay(300)
+                    #
                     if self.click_one:
-                        self.click_one = False
+                        self.click_one = False  # activate button
                     else:
                         self.click_one = True
-
                     action()
             else:
                 pygame.draw.rect(win, self.active_color, (x, y, self.widht, self.height))
@@ -95,7 +100,7 @@ def camera_configure(camera, target_rect):
     return Rect(l, t, w, h)
 
 
-def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.otf', font_size=30):
+def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=30):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
     win.blit(text, (x, y))
@@ -116,16 +121,20 @@ def pause(screen):
         display.update()
 
 
+def item_activete(item):
+    item.item = True
+
+
 def interface(screen, bg):
     show = True
     button_hero = Button(200, 75)
-    characteristic = Button(200, 75*5)
+    characteristic = Button(200, 75 * 5)
     enventory_arr = []
     for i in range(5):
         box_item = Button(30, 30, box=True)
         enventory_arr.append(box_item)
 
-    item = Button(20, 20, active_color=(255, 0, 0), ineractive_colar=(255, 117, 117))
+    item1 = Button(20, 20, active_color=(255, 0, 0), ineractive_colar=(255, 117, 117))
 
     while show:
         for e in event.get():
@@ -137,17 +146,23 @@ def interface(screen, bg):
         screen.blit(bg, (0, 0))
         button_hero.draw(0, WIN_HEIGHT - 75, 'stats', screen, ss)
         if button_hero.click_one:
-            characteristic.draw(0, WIN_HEIGHT - button_hero.height - characteristic.height, 'hp = 100/100', screen, ss)
+            characteristic.draw(0, WIN_HEIGHT - button_hero.height - characteristic.height, 'hp=100/100'
+                                                                                            'mp=100/100', screen, ss)
         i = 0
         for e in enventory_arr:
             i += 1
             e.draw(50 * i, 100, '', screen)
             if e.box and i == 1:
-                item.draw(50 + 5, 105, '', screen)
+                pass
 
             if i >= len(enventory_arr):
                 i = 0
-
+        x, y = mouse.get_pos()
+        print(x, y)
+        if item1.item:
+            item1.draw(x, y, '', screen)
+        else:
+            item1.draw(50 + 5, 105, '', screen, item_activete(item1))
         display.update()
 
 
@@ -163,7 +178,7 @@ def main(save=False):
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
     # будем использовать как фон
     bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
-    bgbl = image.load('textures//background//background menu 1.jpg')
+    bgbl = image.load('textures//background//background.jpg')
     skale = transform.scale(bgbl, (WIN_WIDTH, WIN_HEIGHT))
 
     # добавим звуков и музыки
@@ -173,12 +188,12 @@ def main(save=False):
     # panche = mixer.Sound('sounds/environment/shag.ogg')
     # shag.set_volume(0.3)
     # shag.play(-1)
-    #old_time = 0
-    #click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
+    # old_time = 0
+    # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
     settings_menu = False
     #
 
-    hero = Player(55, 55)  # создаем героя по (x,y) координатам
+    hero = Player(32, 64)  # создаем героя по (x,y) координатам
     left = right = False  # по умолчанию - стоим
     up = False
 
@@ -216,7 +231,7 @@ def main(save=False):
         "-                                         t       t     -          -                     -",
         "-                         a               t       t     -         -                      -",
         "-                        a***             t       t     -        -                       -",
-        "-                       a*****            t       t     -       -                        -",
+        "-                       a*****            t       t             -                        -",
         "-                      a*******           t       t            -                         -",
         "-+++++++++++++++++++++++********+++++++++++++++++++++++++++++++++++++++++++++++++++++++++-",
         "------------------------------------------------------------------------------------------"]
@@ -304,7 +319,7 @@ def main(save=False):
             if e.type == KEYDOWN and e.key == K_F8:
                 hero.rect = save_new.load('rect')
 
-            #if e.type == KEYDOWN and e.key == K_e:
+            # if e.type == KEYDOWN and e.key == K_e:
             #    new_time = time.get_ticks()
             #    if new_time - old_time > 1000:
             #        old_time = new_time
@@ -320,19 +335,20 @@ def main(save=False):
                     settings_menu = True
         hero_x_message = hero.rect.x
         hero_y_message = hero.rect.y
+
         screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
-        hero.update(left, right, up, platforms)  # передвижение
+        # передвижение
 
         # entities.draw(screen) # отображение
         for e in entities:
             screen.blit(e.image, camera.apply(e))
         if settings_menu:
-            hero_x_message //= 32
-            hero_y_message //= 32
+            hero_x_message /= 32
+            hero_y_message /= 32
             print_text(str(hero_x_message), 0, 0, screen)
             print_text(str(hero_y_message), 0, 30, screen)
-
+        hero.update(left, right, up, platforms)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 

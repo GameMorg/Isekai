@@ -76,17 +76,17 @@ class Player(sprite.Sprite):
         self.boltAnimJump.play()
 
         # sound
-        #self.panche = mixer.Sound('sounds/environment/panche.ogg')
-        #self.shag = mixer.Sound('sounds/environment/shag.ogg')
-        #self.aaaaa = mixer.Sound('mario/aaa.ogg')
-        #self.cho_nada = mixer.Sound('mario/cho_nada.ogg')
-        #self.otvali = mixer.Sound('mario/otvali.ogg')
-        #self.shag_max = 4
-        #self.shag_val = 0
+        # self.panche = mixer.Sound('sounds/environment/panche.ogg')
+        # self.shag = mixer.Sound('sounds/environment/shag.ogg')
+        # self.aaaaa = mixer.Sound('mario/aaa.ogg')
+        # self.cho_nada = mixer.Sound('mario/cho_nada.ogg')
+        # self.otvali = mixer.Sound('mario/otvali.ogg')
+        # self.shag_max = 4
+        # self.shag_val = 0
         #
         # say hero
-        #self.num_f = 0
-        #self.old_time_shag = 0
+        # self.num_f = 0
+        # self.old_time_shag = 0
 
     def update(self, left, right, up, platforms):
 
@@ -101,9 +101,9 @@ class Player(sprite.Sprite):
             # sound
             if self.onGround:
                 self.new_time = time.get_ticks()
-                #if self.new_time - self.old_time_shag > 300:
-                    #self.old_time_shag = self.new_time
-                    #self.shag.play()
+                # if self.new_time - self.old_time_shag > 300:
+                # self.old_time_shag = self.new_time
+                # self.shag.play()
             #
 
             self.image.fill(Color(COLOR))
@@ -119,9 +119,9 @@ class Player(sprite.Sprite):
             # sound
             if self.onGround:
                 self.new_time = time.get_ticks()
-                #if self.new_time - self.old_time_shag > 300:
-                    #aaaaself.old_time_shag = self.new_time
-                    #self.shag.play()
+                # if self.new_time - self.old_time_shag > 300:
+                # aaaaself.old_time_shag = self.new_time
+                # self.shag.play()
             #
 
             if up:
@@ -148,7 +148,7 @@ class Player(sprite.Sprite):
         self.mosue = mouse.get_pos()
         self.click = mouse.get_pressed()
 
-        #if self.rect.x < self.mosue[0] < self.rect.x + self.rect.width:
+        # if self.rect.x < self.mosue[0] < self.rect.x + self.rect.width:
         #    if self.rect.y < self.mosue[1] < self.rect.y + self.rect.height:
         #        if self.click[0] == 1:
         #            time.delay(300)
@@ -176,8 +176,8 @@ class Player(sprite.Sprite):
                     self.rect.bottom = p.rect.top  # то не падает вниз
 
                     self.onGround = True  # и становится на что-то твердое
-                    #if self.yvel > 10:
-                         #self.panche.play()
+                    # if self.yvel > 10:
+                    # self.panche.play()
                     self.yvel = 0  # и энергия падения пропадает
 
                 if yvel < 0:  # если движется вверх

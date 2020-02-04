@@ -52,7 +52,7 @@ class Button():
             win.blit(image_pas, (x, y))
 
 
-def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.otf', font_size=30):
+def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=30):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
     win.blit(text, (x, y))
