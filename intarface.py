@@ -7,6 +7,16 @@ DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и выс
 BACKGROUND_COLOR = "#FFFFFF"
 
 def interface(screen, bg):
+    """
+    Функция принимающая значение экрана и заднего фона
+    выводит на экран итерфейс игрока, в котором
+    1) его инвентарь
+    2) его характеристика
+    3) его иконка на которую можно нажать и он скажет фразу
+    :param screen:
+    :param bg:
+    :return:
+    """
     show = True
     button_hero = Button(200, 75)
     characteristic = Button(200, 75 * 5)
@@ -47,6 +57,10 @@ def interface(screen, bg):
         display.update()
 
 def ss():
+    """
+    функция  для заглушки копки
+    :return:
+    """
     pass
 
 def item_activete(item):

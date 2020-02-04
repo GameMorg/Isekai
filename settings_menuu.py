@@ -2,6 +2,13 @@ from buttons import *
 
 
 def settings_menu(hero, screen):
+    """
+    функция  принимающая значения экрана и героя
+    выводит на экран позицию героя, и время в игре
+    :param hero:
+    :param screen:
+    :return:
+    """
     hero_x_message = hero.rect.x
     hero_y_message = hero.rect.y
     show_time = time.get_ticks()
