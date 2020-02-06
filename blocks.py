@@ -18,18 +18,18 @@ class Platform(sprite.Sprite):
         self.poly_block = False
         if block == 1:
             self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)
-        elif block == "+":
+        elif block == 2:
             self.image = image.load("%s/textures/block/dirt.jpg" % ICON_DIR)
-        elif block == "*":
+        elif block == 3:
             self.image = image.load("%s/textures/block/earst.jpg" % ICON_DIR)
-        elif block == "/":
+        elif block == 4:
             self.image = image.load("%s/textures/block/stone.jpg" % ICON_DIR)
-        elif block == 'a':
+        elif block == 5:
             self.image = image.load("%s/textures/block/pesok.jpg" % ICON_DIR)
-        elif block == 't':
+        elif block == 6:
             self.image = image.load("%s/textures/block/treeeee.png" % ICON_DIR)
             self.fon_block = True
-        elif block == 'd':
+        elif block == 7:
             self.image = image.load("%s/textures/block/land_grass_L.png" % ICON_DIR)
             self.poly_block = True
 

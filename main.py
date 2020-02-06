@@ -33,12 +33,6 @@ def camera_configure(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera
     l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
-
-    l = min(0, l)  # Не движемся дальше левой границы
-    l = max(-(camera.width - WIN_WIDTH), l)  # Не движемся дальше правой границы
-    t = max(-(camera.height - WIN_HEIGHT), t)  # Не движемся дальше нижней границы
-    t = min(0, t)  # Не движемся дальше верхней границы
-
     return Rect(l, t, w, h)
 
 
@@ -63,11 +57,13 @@ def main(save=False):
     # old_time = 0
     # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
     chank_one = generator.Mymap()
-    chank_one.line_y(24, 1)
+    chank_one.line_y(29, 1)
     chank_one.line_y(0, 1)
     chank_one.line_x(0, 1)
-    chank_one.line_x(18, 1)
-    chank_one.cube(5, 5, 5, 1)
+    chank_one.line_x(29, 1)
+    chank_one.cube(5, 5, 5, 5)
+    chank_one.cube(10, 5, 2, 6)
+    chank_one.cube(12, 5, 2, 7)
     setttings_menu = False
     #
 
@@ -128,31 +124,34 @@ def main(save=False):
                 entities.add(pf)
                 platforms.append(pf)
 
-            elif col == "+":
+            elif col == 2:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
-            elif col == "*":
+            elif col == 3:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
-            elif col == "/":
+            elif col == 4:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
-            elif col == 'a':
+            elif col == 5:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
-            elif col == 't':
+            elif col == 6:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
-            elif col == 'd':
+            elif col == 6:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
-
+            elif col == 7:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 0  # на каждой новой строчке начинаем с нуля

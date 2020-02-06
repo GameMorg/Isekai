@@ -3,8 +3,8 @@ import numpy as np
 
 class Mymap():
     def __init__(self):
-        self.chank_widht = 25
-        self.chank_height = 19
+        self.chank_widht = 30
+        self.chank_height = 30
         self.chank = np.zeros((self.chank_widht, self.chank_height), dtype=int)
 
     def line_y(self, y, number):
@@ -23,7 +23,6 @@ class Mymap():
 
         x = y = 0
         for elem in self.chank:
-            print(y)
             for e in range(len(elem)):
                 if self.cube_x <= x < self.cube_x + a and self.cube_y <= y < self.cube_y + a:
                     elem[e] = number
