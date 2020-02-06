@@ -16,7 +16,7 @@ class Platform(sprite.Sprite):
         self.image.fill(Color(PLATFORM_COLOR))
         self.fon_block = False
         self.poly_block = False
-        if block == "-":
+        if block == 1:
             self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)
         elif block == "+":
             self.image = image.load("%s/textures/block/dirt.jpg" % ICON_DIR)

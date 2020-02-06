@@ -99,11 +99,11 @@ class Player(sprite.Sprite):
         if left:
             self.xvel = -MOVE_SPEED  # Лево = x- n
             # sound
-            if self.onGround:
-                self.new_time = time.get_ticks()
-                # if self.new_time - self.old_time_shag > 300:
-                # self.old_time_shag = self.new_time
-                # self.shag.play()
+            # if self.onGround:
+            # self.new_time = time.get_ticks()
+            # if self.new_time - self.old_time_shag > 300:
+            # self.old_time_shag = self.new_time
+            # self.shag.play()
             #
 
             self.image.fill(Color(COLOR))
@@ -117,11 +117,11 @@ class Player(sprite.Sprite):
             self.image.fill(Color(COLOR))
 
             # sound
-            if self.onGround:
-                self.new_time = time.get_ticks()
-                # if self.new_time - self.old_time_shag > 300:
-                # aaaaself.old_time_shag = self.new_time
-                # self.shag.play()
+            # if self.onGround:
+            # self.new_time = time.get_ticks()
+            # if self.new_time - self.old_time_shag > 300:
+            # aaaaself.old_time_shag = self.new_time
+            # self.shag.play()
             #
 
             if up:
@@ -145,8 +145,8 @@ class Player(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
 
-        self.mosue = mouse.get_pos()
-        self.click = mouse.get_pressed()
+        # self.mosue = mouse.get_pos()
+        # self.click = mouse.get_pressed()
 
         # if self.rect.x < self.mosue[0] < self.rect.x + self.rect.width:
         #    if self.rect.y < self.mosue[1] < self.rect.y + self.rect.height:

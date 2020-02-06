@@ -8,6 +8,7 @@ from blocks import *
 from menu import *
 from intarface import *
 from settings_menuu import *
+import generator
 
 # Объявляем переменные
 WIN_WIDTH = 1280  # Ширина создаваемого окна
@@ -41,21 +42,6 @@ def camera_configure(camera, target_rect):
     return Rect(l, t, w, h)
 
 
-def pause(screen):
-    show = True
-
-    while show:
-        for e in event.get():
-            if e.type == QUIT:
-                show = False
-
-            if e.type == KEYDOWN and e.key == K_RETURN:
-                show = False
-
-        print_text('Pause, press Enter to continia...', 160, 300, screen)
-        display.update()
-
-
 def main(save=False):
     global WIN_WIDTH, WIN_HEIGHT
     pygame.init()  # Инициация PyGame, обязательная строчка
@@ -76,6 +62,12 @@ def main(save=False):
     # shag.play(-1)
     # old_time = 0
     # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
+    chank_one = generator.Mymap()
+    chank_one.line_y(24, 1)
+    chank_one.line_y(0, 1)
+    chank_one.line_x(0, 1)
+    chank_one.line_x(18, 1)
+    chank_one.cube(5, 5, 5, 1)
     setttings_menu = False
     #
 
@@ -129,9 +121,9 @@ def main(save=False):
     # /////
     timer = pygame.time.Clock()
     x = y = 0  # координаты
-    for row in level:  # вся строка
+    for row in chank_one.chank:  # вся строка
         for col in row:  # каждый символ
-            if col == "-":
+            if col == 1:
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
@@ -176,14 +168,14 @@ def main(save=False):
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
                 run = False
-            if e.type == KEYDOWN and e.key == K_w:
+            if e.type == KEYDOWN and e.key == K_SPACE:
                 up = True
             if e.type == KEYDOWN and e.key == K_a:
                 left = True
             if e.type == KEYDOWN and e.key == K_d:
                 right = True
 
-            if e.type == KEYUP and e.key == K_w:
+            if e.type == KEYUP and e.key == K_SPACE:
                 up = False
             if e.type == KEYUP and e.key == K_d:
                 right = False

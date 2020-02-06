@@ -118,3 +118,17 @@ def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.tt
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
     win.blit(text, (x, y))
+
+def pause(screen):
+    show = True
+
+    while show:
+        for e in event.get():
+            if e.type == QUIT:
+                show = False
+
+            if e.type == KEYDOWN and e.key == K_RETURN:
+                show = False
+
+        print_text('Pause, press Enter to continia...', 160, 300, screen)
+        display.update()
