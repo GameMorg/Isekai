@@ -11,8 +11,8 @@ from settings_menuu import *
 import generator
 
 # Объявляем переменные
-WIN_WIDTH = 1280  # Ширина создаваемого окна
-WIN_HEIGHT = 720  # Высота
+WIN_WIDTH = 800  # Ширина создаваемого окна
+WIN_HEIGHT = 600 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
@@ -36,6 +36,49 @@ def camera_configure(camera, target_rect):
     return Rect(l, t, w, h)
 
 
+def draw_map(chank, entities, platforms):
+
+    y = 0
+    x = 960 * chank.chank_num # координаты
+    for row in chank.chank:  # вся строка
+        for col in row:  # каждый символ
+            if col == 1:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+
+            elif col == 2:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 3:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 4:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 5:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 6:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 6:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 7:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+        y += PLATFORM_HEIGHT  # то же самое и с высотой
+        x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля
+
 def main(save=False):
     global WIN_WIDTH, WIN_HEIGHT
     pygame.init()  # Инициация PyGame, обязательная строчка
@@ -56,15 +99,18 @@ def main(save=False):
     # shag.play(-1)
     # old_time = 0
     # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
-    chank_one = generator.Mymap()
+    chank_one = generator.Mymap(0)
     chank_one.line_y(29, 1)
-    chank_one.line_y(0, 1)
-    chank_one.line_x(0, 1)
-    chank_one.line_x(29, 1)
-    chank_one.cube(5, 5, 5, 5)
-    chank_one.cube(10, 5, 2, 6)
-    chank_one.cube(12, 5, 2, 7)
+    chank_two = generator.Mymap(-1)
+    chank_two.line_y(29, 2)
+    chank_tre = generator.Mymap(-2)
+    chank_tre.line_y(29, 1)
     setttings_menu = False
+    a = generator.chank_mass(5)
+    for i in range(5):
+        n = a[i]
+        for e in range(10):
+            n.line_y(29-e, 1 + i)
     #
 
     hero = Player(32, 64)  # создаем героя по (x,y) координатам
@@ -111,53 +157,22 @@ def main(save=False):
     # load save
     save_new = Save('Save_new')
     #
-    #
+    for elem in a:
+        draw_map(elem, entities, platforms)
+    #draw_map(chank_one, entities, platforms)
+    #draw_map(chank_two, entities, platforms)
+    #draw_map(chank_tre, entities, platforms)
     #
 
     # /////
     timer = pygame.time.Clock()
-    x = y = 0  # координаты
-    for row in chank_one.chank:  # вся строка
-        for col in row:  # каждый символ
-            if col == 1:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
 
-            elif col == 2:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 3:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 4:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 5:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 6:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 6:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 7:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-        y += PLATFORM_HEIGHT  # то же самое и с высотой
-        x = 0  # на каждой новой строчке начинаем с нуля
 
-    total_level_width = len(level[0]) * PLATFORM_WIDTH  # Высчитываем фактическую ширину уровня
-    total_level_height = len(level) * PLATFORM_HEIGHT  # высоту
+    #
+
+    #
+    total_level_width = len(chank_one.chank[0]) * PLATFORM_WIDTH  # Высчитываем фактическую ширину уровня
+    total_level_height = len(chank_one.chank) * PLATFORM_HEIGHT  # высоту
 
     camera = Camera(camera_configure, total_level_width, total_level_height)
 
@@ -213,7 +228,7 @@ def main(save=False):
         for e in entities:
             screen.blit(e.image, camera.apply(e))
         if setttings_menu:
-            settings_menu(hero, screen)
+            settings_menu(hero, screen, total_level_width, total_level_height)
         hero.update(left, right, up, platforms)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
