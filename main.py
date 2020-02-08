@@ -12,7 +12,7 @@ import generator
 
 # Объявляем переменные
 WIN_WIDTH = 800  # Ширина создаваемого окна
-WIN_HEIGHT = 600 # Высота
+WIN_HEIGHT = 600  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
@@ -33,13 +33,15 @@ def camera_configure(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera
     l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
+    mose = pygame.mouse.get_pos()
+    l += -mose[0]/15
+    t += -mose[1]/15
     return Rect(l, t, w, h)
 
 
 def draw_map(chank, entities, platforms):
-
     y = 0
-    x = 960 * chank.chank_num # координаты
+    x = 960 * chank.chank_num  # координаты
     for row in chank.chank:  # вся строка
         for col in row:  # каждый символ
             if col == 1:
@@ -79,8 +81,8 @@ def draw_map(chank, entities, platforms):
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля
 
+
 def main(save=False):
-    global WIN_WIDTH, WIN_HEIGHT
     pygame.init()  # Инициация PyGame, обязательная строчка
     screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
@@ -100,23 +102,26 @@ def main(save=False):
     # old_time = 0
     # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
     chank_one = generator.Mymap(0)
-    chank_one.line_y(29, 1)
-    chank_two = generator.Mymap(-1)
-    chank_two.line_y(29, 2)
-    chank_tre = generator.Mymap(-2)
-    chank_tre.line_y(29, 1)
+    #chank_one.line_y(29, 1)
+    #chank_two = generator.Mymap(-1)
+    #chank_two.line_y(29, 2)
+    #chank_tre = generator.Mymap(-2)
+    #chank_tre.line_y(29, 1)
     setttings_menu = False
-    a = generator.chank_mass(5)
-    for i in range(5):
+    a = generator.chank_mass(20)
+    for i in range(3):
         n = a[i]
-        for e in range(10):
-            n.line_y(29-e, 1 + i)
+        for e in range(23):
+            n.line_y(29 - e, 3+i)
+
     #
 
-    hero = Player(32, 64)  # создаем героя по (x,y) координатам
+    hero = Player(512, 64)  # создаем героя по (x,y) координатам
     left = right = False  # по умолчанию - стоим
     up = False
+    #
 
+    #
     entities = pygame.sprite.Group()  # Все объекты
     platforms = []  # то, во что мы будем врезаться или опираться
 
@@ -159,14 +164,13 @@ def main(save=False):
     #
     for elem in a:
         draw_map(elem, entities, platforms)
-    #draw_map(chank_one, entities, platforms)
-    #draw_map(chank_two, entities, platforms)
-    #draw_map(chank_tre, entities, platforms)
+    # draw_map(chank_one, entities, platforms)
+    # draw_map(chank_two, entities, platforms)
+    # draw_map(chank_tre, entities, platforms)
     #
 
     # /////
     timer = pygame.time.Clock()
-
 
     #
 

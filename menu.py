@@ -73,13 +73,15 @@ def setting():
 
 
 def menu():
+    i = 0
+    tmp = False
     show = True
     global win, skale
     pygame.init()
     # init game
 
     save = Save("Save")
-    meun_backr = pygame.image.load('textures//background//background menu 1.jpg')
+    meun_backr = pygame.image.load('textures//background//background menu 1.jpg').convert(24)
     sbp = pygame.image.load('textures//button//load_B2RU.png')
     sba = pygame.image.load("textures//button//Load_BRU.png")
     lbp = pygame.image.load('textures//button//load_B2.png')
@@ -97,12 +99,22 @@ def menu():
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
     # start menu
     while show:
+        pygame.time.delay(50)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 show = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 show = False
 
+        if i == 0 or tmp:
+            i += 1
+            tmp = True
+            if i == 255:
+                tmp = False
+        else:
+            i -= 1
+        win.fill((0, 0, 0))
+        skale.set_alpha(i)
         win.blit(skale, (0, 0))
         start_bth.blitx(win, sbp, sba, display_widht / 2 - 192 / 2, 100, main)
         load_bth.blitx(win, lbp, lba, display_widht / 2 - 192 / 2, 200, main)

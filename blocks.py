@@ -18,6 +18,7 @@ class Platform(sprite.Sprite):
         self.poly_block = False
         if block == 1:
             self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)
+
         elif block == 2:
             self.image = image.load("%s/textures/block/dirt.jpg" % ICON_DIR)
         elif block == 3:
