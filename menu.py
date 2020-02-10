@@ -95,7 +95,7 @@ def menu():
 
     display_widht = 800
     display_height = 600
-    win = pygame.display.set_mode((display_widht, display_height), pygame.FULLSCREEN)
+    win = pygame.display.set_mode((display_widht, display_height))
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))
     # start menu
     while show:

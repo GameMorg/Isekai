@@ -34,8 +34,8 @@ def camera_configure(camera, target_rect):
     _, _, w, h = camera
     l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
     mose = pygame.mouse.get_pos()
-    l += -mose[0]/15
-    t += -mose[1]/15
+    l += -mose[0] / 15
+    t += -mose[1] / 15
     return Rect(l, t, w, h)
 
 
@@ -82,15 +82,46 @@ def draw_map(chank, entities, platforms):
         x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля
 
 
+def remove_bolck(platforms, camera, entities):
+    mouse_pl = mouse.get_pos()
+    mouse_pl_click = mouse.get_pressed()
+    tmp = -1
+    for e in platforms:
+        tmp += 1
+        if e.rect.x < mouse_pl[0] - camera.state.x < e.rect.x + e.rect.w:
+            if e.rect.y < mouse_pl[1] - camera.state.y < e.rect.y + e.rect.h:
+                if mouse_pl_click[0] == 1:
+                    platforms.pop(tmp)
+                    entities.remove(e)
+
+
+def add_block(platforms, camera, entities):
+    mouse_pl = mouse.get_pos()
+    mouse_pl_click = mouse.get_pressed()
+    tmp = -1
+    for e in platforms:
+        tmp += 1
+        if e.rect.x < mouse_pl[0] - camera.state.x < e.rect.x + e.rect.w:
+            if e.rect.y + e.rect.h < mouse_pl[1] - camera.state.y < e.rect.y + e.rect.h * 2:
+                if mouse_pl_click[2] == 1:
+                    pl = Platform(e.rect.x, e.rect.y + e.rect.h, 1)
+                    platforms.append(pl)
+                    entities.add(pl)
+
+
 def main(save=False):
     pygame.init()  # Инициация PyGame, обязательная строчка
-    screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
+    screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
     # будем использовать как фон
     bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
-    bgbl = image.load('textures//background//background.jpg')
+    bgbl = image.load('textures//background//background.jpg').convert(24)
     skale = transform.scale(bgbl, (WIN_WIDTH, WIN_HEIGHT))
+    time_day = 0
+    day = False
+    old_time_day = 0
+    deystvie = False
 
     # добавим звуков и музыки
     # mixer.pre_init(44100, -16, 1, 512)
@@ -102,21 +133,21 @@ def main(save=False):
     # old_time = 0
     # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
     chank_one = generator.Mymap(0)
-    #chank_one.line_y(29, 1)
-    #chank_two = generator.Mymap(-1)
-    #chank_two.line_y(29, 2)
-    #chank_tre = generator.Mymap(-2)
-    #chank_tre.line_y(29, 1)
+    # chank_one.line_y(29, 1)
+    # chank_two = generator.Mymap(-1)
+    # chank_two.line_y(29, 2)
+    # chank_tre = generator.Mymap(-2)
+    # chank_tre.line_y(29, 1)
     setttings_menu = False
     a = generator.chank_mass(20)
     for i in range(3):
         n = a[i]
         for e in range(23):
-            n.line_y(29 - e, 3+i)
+            n.line_y(29 - e, 3 + i)
 
     #
 
-    hero = Player(512, 64)  # создаем героя по (x,y) координатам
+    hero = Player(0, 0)  # создаем героя по (x,y) координатам
     left = right = False  # по умолчанию - стоим
     up = False
     #
@@ -192,7 +223,12 @@ def main(save=False):
                 left = True
             if e.type == KEYDOWN and e.key == K_d:
                 right = True
-
+                #
+            if e.type == KEYDOWN and e.key == K_e:
+                deystvie = True
+            if e.type == KEYUP and e.key == K_e:
+                deystvie = False
+                #
             if e.type == KEYUP and e.key == K_SPACE:
                 up = False
             if e.type == KEYUP and e.key == K_d:
@@ -223,7 +259,19 @@ def main(save=False):
                     setttings_menu = False
                 else:
                     setttings_menu = True
-
+        #
+        if time_day <= 0 or day:  # добавим день и ночь
+            time_day += 0.5
+            day = True
+            if time_day >= 255:
+                old_time_day += 1
+                if old_time_day >= 1000:
+                    day = False
+                    old_time_day = 0
+        else:
+            time_day -= 0.5
+        screen.fill((0, 0, 0))
+        skale.set_alpha(time_day)
         screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
         # передвижение
@@ -231,9 +279,14 @@ def main(save=False):
         # entities.draw(screen) # отображение
         for e in entities:
             screen.blit(e.image, camera.apply(e))
+
         if setttings_menu:
-            settings_menu(hero, screen, total_level_width, total_level_height)
+            settings_menu(hero, screen, total_level_width, total_level_height, camera, platforms)
+
+        remove_bolck(platforms, camera, entities)
+        add_block(platforms, camera, entities)
         hero.update(left, right, up, platforms)
+
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 
