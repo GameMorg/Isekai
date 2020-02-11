@@ -109,7 +109,7 @@ def main(save=False):
     old_time_day = 0
     setttings_menu = False
     deystvie = False
-
+    block_num = 1
     # добавим звуков и музыки
     # mixer.pre_init(44100, -16, 1, 512)
     # mixer.init()
@@ -245,6 +245,11 @@ def main(save=False):
                     setttings_menu = False
                 else:
                     setttings_menu = True
+
+            if e.type == KEYDOWN and e.key == K_1:
+                block_num += 1
+                if block_num >7:
+                    block_num = 1
         #
         if time_day <= 0 or day:  # добавим день и ночь
             time_day += 0.5
@@ -270,7 +275,7 @@ def main(save=False):
             settings_menu(hero, screen)
 
         remove_bolck(platforms, camera, entities)
-        add_block(platforms, camera, entities, hero)
+        add_block(platforms, camera, entities, hero, block_num)
         hero.update(left, right, up, platforms)
 
         pygame.display.update()  # обновление и вывод всех изменений на экран
