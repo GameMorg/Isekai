@@ -9,6 +9,7 @@ from menu import *
 from intarface import *
 from settings_menuu import *
 import generator
+import npc
 
 # Объявляем переменные
 WIN_WIDTH = 800  # Ширина создаваемого окна
@@ -110,6 +111,7 @@ def main(save=False):
     setttings_menu = False
     deystvie = False
     block_num = 1
+    npc_one = npc.Npc(100, 0)
     # добавим звуков и музыки
     # mixer.pre_init(44100, -16, 1, 512)
     # mixer.init()
@@ -143,6 +145,7 @@ def main(save=False):
     platforms = []  # то, во что мы будем врезаться или опираться
 
     entities.add(hero)
+    entities.add(npc_one)
 
     level = [
         "------------------------------------------",
@@ -196,6 +199,7 @@ def main(save=False):
     total_level_height = len(chank_one.chank) * PLATFORM_HEIGHT  # высоту
 
     camera = Camera(camera_configure, total_level_width, total_level_height)
+    print(entities)
 
     run = True
     while run:  # Основной цикл программы
@@ -227,9 +231,11 @@ def main(save=False):
 
             if e.type == KEYDOWN and e.key == K_F5:
                 save_new.save('rect', hero.rect)
+                save_new.save('map_platforms', platforms)
 
             if e.type == KEYDOWN and e.key == K_F8:
                 hero.rect = save_new.load('rect')
+                platforms = save_new.load('map_platforms')
 
             # if e.type == KEYDOWN and e.key == K_e:
             #    new_time = time.get_ticks()
@@ -248,7 +254,7 @@ def main(save=False):
 
             if e.type == KEYDOWN and e.key == K_1:
                 block_num += 1
-                if block_num >7:
+                if block_num > 7:
                     block_num = 1
         #
         if time_day <= 0 or day:  # добавим день и ночь
@@ -277,7 +283,7 @@ def main(save=False):
         remove_bolck(platforms, camera, entities)
         add_block(platforms, camera, entities, hero, block_num)
         hero.update(left, right, up, platforms)
-
+        npc_one.update(False, True, False, platforms)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 
