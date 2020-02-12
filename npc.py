@@ -85,7 +85,7 @@ class Npc(sprite.Sprite):
         # self.num_f = 0
         # self.old_time_shag = 0
 
-    def update(self, left, right, up, platforms):
+    def update(self, left, right, up, platforms, hero):
 
         if up:
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
@@ -142,6 +142,9 @@ class Npc(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
 
+
+        if  self.rect.x - 100  <hero.rect.x < self.rect.x + 100:
+            pass
         # self.mosue = mouse.get_pos()
         # self.click = mouse.get_pressed()
 

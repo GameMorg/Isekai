@@ -34,9 +34,6 @@ def camera_configure(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera
     l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
-    mose = pygame.mouse.get_pos()
-    l += -mose[0] / 15
-    t += -mose[1] / 15
     return Rect(l, t, w, h)
 
 
@@ -83,17 +80,6 @@ def draw_map(chank, entities, platforms):
         x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля
 
 
-def remove_bolck(platforms, camera, entities):
-    mouse_pl = mouse.get_pos()
-    mouse_pl_click = mouse.get_pressed()
-    tmp = -1
-    for e in platforms:
-        tmp += 1
-        if e.rect.x < mouse_pl[0] - camera.state.x < e.rect.x + e.rect.w:
-            if e.rect.y < mouse_pl[1] - camera.state.y < e.rect.y + e.rect.h:
-                if mouse_pl_click[0] == 1:
-                    platforms.pop(tmp)
-                    entities.remove(e)
 
 
 def main(save=False):
@@ -280,10 +266,10 @@ def main(save=False):
         if setttings_menu:
             settings_menu(hero, screen)
 
-        remove_bolck(platforms, camera, entities)
+        remove_bolck(platforms, camera, entities, hero)
         add_block(platforms, camera, entities, hero, block_num)
         hero.update(left, right, up, platforms)
-        npc_one.update(False, True, False, platforms)
+        npc_one.update(False, False, False, platforms, hero)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 
