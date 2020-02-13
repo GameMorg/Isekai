@@ -269,7 +269,7 @@ def main(save=False):
         remove_bolck(platforms, camera, entities, hero)
         add_block(platforms, camera, entities, hero, block_num)
         hero.update(left, right, up, platforms)
-        npc_one.update(False, False, False, platforms, hero)
+        npc_one.update(False, False, False, platforms, hero, screen, camera)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 

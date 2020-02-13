@@ -85,7 +85,15 @@ class Npc(sprite.Sprite):
         # self.num_f = 0
         # self.old_time_shag = 0
 
-    def update(self, left, right, up, platforms, hero):
+    def message_npc(self, message, screen, camera, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=15):
+        font_type = font.Font(font_type, font_size)
+        text = font_type.render(message, True, font_color)
+        backgroung_message = Rect(self.rect.x + camera.state.x - font_size, self.rect.y + camera.state.y - font_size * 2.5,
+                                  len(message) * font_size, font_size * 2)
+        draw.rect(screen, (255, 255, 255), backgroung_message)
+        screen.blit(text, (self.rect.x + camera.state.x, self.rect.y + camera.state.y - font_size * 2))
+
+    def update(self, left, right, up, platforms, hero, screen, camera):
 
         if up:
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
@@ -142,9 +150,8 @@ class Npc(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
 
-
-        if  self.rect.x - 100  <hero.rect.x < self.rect.x + 100:
-            pass
+        if self.rect.x - 100 < hero.rect.x < self.rect.x + 100:
+            self.message_npc("Привет!", screen, camera)
         # self.mosue = mouse.get_pos()
         # self.click = mouse.get_pressed()
 
