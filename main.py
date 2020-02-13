@@ -264,12 +264,12 @@ def main(save=False):
             screen.blit(e.image, camera.apply(e))
 
         if setttings_menu:
-            settings_menu(hero, screen)
+            settings_menu(hero, screen, camera, npc_one)
 
         remove_bolck(platforms, camera, entities, hero)
-        add_block(platforms, camera, entities, hero, block_num)
+        add_block(platforms, camera, entities, hero, block_num, npc_one)
         hero.update(left, right, up, platforms)
-        npc_one.update(False, False, False, platforms, hero, screen, camera)
+        npc_one.update(False, True, False, platforms, hero, screen, camera)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 

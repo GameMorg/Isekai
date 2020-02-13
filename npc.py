@@ -9,7 +9,7 @@ mixer.init()
 #
 
 
-MOVE_SPEED = 5
+MOVE_SPEED = 1
 WIDTH = 22
 HEIGHT = 32
 COLOR = "#888888"
@@ -88,7 +88,8 @@ class Npc(sprite.Sprite):
     def message_npc(self, message, screen, camera, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=15):
         font_type = font.Font(font_type, font_size)
         text = font_type.render(message, True, font_color)
-        backgroung_message = Rect(self.rect.x + camera.state.x - font_size, self.rect.y + camera.state.y - font_size * 2.5,
+        backgroung_message = Rect(self.rect.x + camera.state.x - font_size,
+                                  self.rect.y + camera.state.y - font_size * 2.5,
                                   len(message) * font_size, font_size * 2)
         draw.rect(screen, (255, 255, 255), backgroung_message)
         screen.blit(text, (self.rect.x + camera.state.x, self.rect.y + camera.state.y - font_size * 2))
@@ -150,8 +151,19 @@ class Npc(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
 
-        if self.rect.x - 100 < hero.rect.x < self.rect.x + 100:
+        self.mouse_pos = mouse.get_pos()  # где находится мышка
+        self.mouse_click = mouse.get_pressed()  # какая кнопка нажата
+
+        if self.rect.x - 100 - camera.state.x < hero.rect.x - camera.state.x < self.rect.x + 100 - camera.state.x and \
+                self.rect.y - 100 - camera.state.y < hero.rect.y - camera.state.y < self.rect.y + 100:  # проверяем, находится ли нпс блиско с гг
             self.message_npc("Привет!", screen, camera)
+
+        if self.rect.x < self.mouse_pos[
+            0] - camera.state.x < self.rect.x + self.rect.w and self.rect.y < \
+                self.mouse_pos[1] - camera.state.y < self.rect.y + self.rect.h and self.mouse_click[
+            0] == 1:
+            self.message_npc('ТЫ нажал на меня!', screen, camera)
+
         # self.mosue = mouse.get_pos()
         # self.click = mouse.get_pressed()
 
