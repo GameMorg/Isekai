@@ -120,6 +120,11 @@ def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.tt
     win.blit(text, (x, y))
 
 def pause(screen):
+    """
+    функция ставит игру на паузу
+    :param screen:
+    :return:
+    """
     show = True
 
     while show:

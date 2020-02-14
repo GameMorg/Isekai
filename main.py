@@ -31,6 +31,11 @@ class Camera(object):
 
 
 def camera_configure(camera, target_rect):
+    """
+    :param camera:
+    :param target_rect:
+    :return:
+    """
     l, t, _, _ = target_rect
     _, _, w, h = camera
     l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
@@ -38,6 +43,15 @@ def camera_configure(camera, target_rect):
 
 
 def draw_map(chank, entities, platforms):
+    """
+    1) принимает массив из чесел, которые означают номер блока
+    2) принимает группу спрайтов, в которую записывает значения получннные из массива 1
+    3) принимает массив класса блок, в которую записывает их координаты, размеры и вид блока
+    :param chank:
+    :param entities:
+    :param platforms:
+    :return:
+    """
     y = 0
     x = 960 * chank.chank_num  # координаты
     for row in chank.chank:  # вся строка
@@ -83,6 +97,13 @@ def draw_map(chank, entities, platforms):
 
 
 def main(save=False):
+    """
+    главный цикл, который проверяе все условия.
+    !) инциализирует pygame
+    2) инициализирует все переменные(окно игры, задний фон, клавиши, звуки, карту, нпс, сохранения, время суток и рисует все на окне
+    :param save:
+    :return:
+    """
     pygame.init()  # Инициация PyGame, обязательная строчка
     screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
@@ -132,35 +153,6 @@ def main(save=False):
 
     entities.add(hero)
     entities.add(npc_one)
-
-    level = [
-        "------------------------------------------",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "-                                        -",
-        "------------------------------------------"]
-
     # Sve File
     if save:
         save = Save('Save')

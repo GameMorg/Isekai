@@ -5,7 +5,18 @@ from main import main
 
 
 class Button():
+    """
+    создание кнопки
+    """
     def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False):
+        """
+        функция создает кнопку с заданной шириной и высотой, можно зарание указать цвет активной и пассивной кнопки
+        :param widht:
+        :param height:
+        :param ineractive_colar:
+        :param active_color:
+        :param save:
+        """
         self.widht = widht
         self.height = height
         self.ineractive_colar = ineractive_colar
@@ -13,6 +24,16 @@ class Button():
         self.save = save
 
     def draw(self, x, y, message, win, action=None):
+        """
+        функция рисует созданную кнопку в указанных координатах, в указанном окне, пишет на кнопке сообщение
+        дополнительно можно указать функцию которую активирует кнопка при нажатии
+        :param x:
+        :param y:
+        :param message:
+        :param win:
+        :param action:
+        :return:
+        """
         mosue = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
 
@@ -32,6 +53,18 @@ class Button():
 
     def blitx(self, win, image_pas, image_active, x, y, action=None,
               click_sound=mixer.Sound('sounds//environment//mm_button.ogg')):
+        """
+        функция рисует созданную кнопку с помошью данной картинки, в указанном окне, в указанных координатах,
+        дополнительно можно указать, действие при нажатии кнопки
+        :param win:
+        :param image_pas:
+        :param image_active:
+        :param x:
+        :param y:
+        :param action:
+        :param click_sound:
+        :return:
+        """
         mosue = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         # mixer.pre_init(44100, -16, 1, 512)
@@ -53,12 +86,30 @@ class Button():
 
 
 def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=30):
+    """
+    функция выводит на экран указанное сообщение, по указанным координатам.
+    дополнительно можно указать цвет текста, шрифт и размер шрифта
+    :param message:
+    :param x:
+    :param y:
+    :param win:
+    :param font_color:
+    :param font_type:
+    :param font_size:
+    :return:
+    """
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
     win.blit(text, (x, y))
 
 
 def setting():
+    """
+    функция вызывает меню настроек, в котором можно
+    1) изменить разрешение экрана
+    2) изменить громкость звука
+    :return:
+    """
     show = True
 
     while show:
@@ -73,6 +124,14 @@ def setting():
 
 
 def menu():
+    """
+    функция, которая вызывает меню, в котором можно:
+    1) вызвать меню настроек
+    2) начать игру
+    3) загрузить сохраненную игру
+    4) выйти из игры
+    :return:
+    """
     show = True
     global win, skale
     pygame.init()

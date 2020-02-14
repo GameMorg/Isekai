@@ -11,33 +11,54 @@ ICON_DIR = os.path.dirname(__file__)  # Полный путь к каталог�
 
 
 class Platform(sprite.Sprite):
+    """
+    блоки
+    """
+
     def __init__(self, x, y, block):
+        """
+        функция создания блока, создает блок по заданным координатам и виду блока указанного цифрой
+        :param x:
+        :param y:
+        :param block:
+        """
         sprite.Sprite.__init__(self)
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         self.image.fill(Color(PLATFORM_COLOR))
         self.fon_block = False
         self.poly_block = False
         if block == 1:
-            self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)
+            self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)  # каменный блок
         elif block == 2:
-            self.image = image.load("%s/textures/block/dirt.jpg" % ICON_DIR)
+            self.image = image.load("%s/textures/block/dirt.jpg" % ICON_DIR)  # грязь
         elif block == 3:
-            self.image = image.load("%s/textures/block/earst.jpg" % ICON_DIR)
+            self.image = image.load("%s/textures/block/earst.jpg" % ICON_DIR)  # блок травы
         elif block == 4:
-            self.image = image.load("%s/textures/block/stone.jpg" % ICON_DIR)
+            self.image = image.load("%s/textures/block/stone.jpg" % ICON_DIR)  # камень
         elif block == 5:
-            self.image = image.load("%s/textures/block/pesok.jpg" % ICON_DIR)
+            self.image = image.load("%s/textures/block/pesok.jpg" % ICON_DIR)  # песок
         elif block == 6:
-            self.image = image.load("%s/textures/block/treeeee.png" % ICON_DIR)
+            self.image = image.load("%s/textures/block/treeeee.png" % ICON_DIR)  # дерево
             self.fon_block = True
         elif block == 7:
-            self.image = image.load("%s/textures/block/land_grass_L.png" % ICON_DIR)
+            self.image = image.load("%s/textures/block/land_grass_L.png" % ICON_DIR)  # диагональный блок травы
             self.poly_block = True
 
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
 
 def add_block(platforms, camera, entities, hero, block_num, npc):
+    """
+    функция добавленияблоков левой кнопкой мыши
+    определяет место блока
+    :param platforms:
+    :param camera:
+    :param entities:
+    :param hero:
+    :param block_num:
+    :param npc:
+    :return:
+    """
     mouse_pl = mouse.get_pos()
     mouse_pl_click = mouse.get_pressed()
     tmp = -1
@@ -79,12 +100,29 @@ def add_block(platforms, camera, entities, hero, block_num, npc):
 
 
 def chek_block(pl_tmp, platforms, hero, npc):
+    """
+    функция проверяет, можно ли поставить блок в данном месте
+    :param pl_tmp:
+    :param platforms:
+    :param hero:
+    :param npc:
+    :return:
+    """
     for pl in platforms:
         if pl_tmp.colliderect(pl) or pl_tmp.colliderect(hero) or pl_tmp.colliderect(npc):
             return False
     return True
 
+
 def remove_bolck(platforms, camera, entities, hero):
+    """
+    функция удаляет блоки по нажатию на левую кнопку мыши
+    :param platforms:
+    :param camera:
+    :param entities:
+    :param hero:
+    :return:
+    """
     mouse_pl = mouse.get_pos()
     mouse_pl_click = mouse.get_pressed()
     tmp = -1
