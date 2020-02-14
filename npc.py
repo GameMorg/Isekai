@@ -1,4 +1,4 @@
-from pygame import *
+from buttons import *
 import pyganim
 import os
 
@@ -85,17 +85,18 @@ class Npc(sprite.Sprite):
         # self.num_f = 0
         # self.old_time_shag = 0
 
-    def message_npc(self, message, screen, camera, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=15):
-        font_type = font.Font(font_type, font_size)
-        text = font_type.render(message, True, font_color)
-        backgroung_message = Rect(self.rect.x + camera.state.x - font_size,
-                                  self.rect.y + camera.state.y - font_size * 2.5,
-                                  len(message) * font_size, font_size * 2)
-        draw.rect(screen, (255, 255, 255), backgroung_message)
-        screen.blit(text, (self.rect.x + camera.state.x, self.rect.y + camera.state.y - font_size * 2))
-
-    def update(self, left, right, up, platforms, hero, screen, camera):
-
+    def update(self, left, right, up, platforms, hero, screen, camera, display_widht=800, display_height=600):
+        """
+        функция, проверяющее положения нпс, его действия и события
+        :param left:
+        :param right:
+        :param up:
+        :param platforms:
+        :param hero:
+        :param screen:
+        :param camera:
+        :return:
+        """
         if up:
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -JUMP_POWER
@@ -155,14 +156,13 @@ class Npc(sprite.Sprite):
         self.mouse_click = mouse.get_pressed()  # какая кнопка нажата
 
         if self.rect.x - 100 - camera.state.x < hero.rect.x - camera.state.x < self.rect.x + 100 - camera.state.x and \
-                self.rect.y - 100 - camera.state.y < hero.rect.y - camera.state.y < self.rect.y + 100:  # проверяем, находится ли нпс блиско с гг
+                self.rect.y - 100 - camera.state.y < hero.rect.y - camera.state.y < self.rect.y + 100:  # проверяем, находится ли нпс блиско к гг
             self.message_npc("Привет!", screen, camera)
 
-        if self.rect.x < self.mouse_pos[
+        if self.rect.x < self.mouse_pos[  # check press gg on npc
             0] - camera.state.x < self.rect.x + self.rect.w and self.rect.y < \
-                self.mouse_pos[1] - camera.state.y < self.rect.y + self.rect.h and self.mouse_click[
-            0] == 1:
-            self.message_npc('ТЫ нажал на меня!', screen, camera)
+                self.mouse_pos[1] - camera.state.y < self.rect.y + self.rect.h and self.mouse_click[0] == 1:
+            self.dialog(screen, display_widht, display_height)
 
         # self.mosue = mouse.get_pos()
         # self.click = mouse.get_pressed()
@@ -182,6 +182,13 @@ class Npc(sprite.Sprite):
         #                self.num_f = 0
 
     def collide(self, xvel, yvel, platforms):
+        """
+        функция проверяет, столкнулся ли нпс с другим обьектом с помощья силы персонажа и препядствий
+        :param xvel:
+        :param yvel:
+        :param platforms:
+        :return:
+        """
         for p in platforms:
             if sprite.collide_rect(self, p) and not p.fon_block:  # если есть пересечение платформы с игроком
 
@@ -202,3 +209,50 @@ class Npc(sprite.Sprite):
                 if yvel < 0:  # если движется вверх
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
+
+    def message_npc(self, message, screen, camera, font_color=(0, 0, 0), font_type='font_type.ttf', font_size=15):
+        """
+        функция, вызывающая над нпс текст
+        :param message:
+        :param screen:
+        :param camera:
+        :param font_color:
+        :param font_type:
+        :param font_size:
+        :return:
+        """
+        font_type = font.Font(font_type, font_size)
+        text = font_type.render(message, True, font_color)
+        backgroung_message = Rect(self.rect.x + camera.state.x - font_size,
+                                  self.rect.y + camera.state.y - font_size * 2.5,
+                                  len(message) * font_size, font_size * 2)
+        draw.rect(screen, (255, 255, 255), backgroung_message)
+        screen.blit(text, (self.rect.x + camera.state.x, self.rect.y + camera.state.y - font_size * 2))
+
+    def dialog(self, screen, display_widht, display_height):
+        """
+        функция диалога с нпс
+        :return:
+        """
+        # init dialog
+        timer = time.Clock()
+        dialog = True
+        # button dialog
+        self.bt_1 = Button(70, 70)
+        self.bt_2 = Button(70, 70)
+        self.bt_3 = Button(70, 70)
+        self.bt_4 = Button(70, 70)
+        while dialog:
+            timer.tick(60)
+            for e in event.get():
+                if e.type == QUIT:
+                    dialog = False
+                if e.type == KEYDOWN and e.key == K_ESCAPE:
+                    dialog = False
+            background_dialog = Rect(display_widht / 4, display_height / 8, display_widht / 2, display_height / 1.3)
+            draw.rect(screen, (255, 255, 255), background_dialog)
+            self.bt_1.draw(display_widht / 4 + 25, display_height / 1.3 - 25, 'Ох', screen)
+            self.bt_2.draw(display_widht / 4 + 25 * 2 + self.bt_1.widht, display_height / 1.3 - 25, 'Ой!', screen)
+            self.bt_3.draw(display_widht / 4 + 25 * 3 + self.bt_1.widht * 2, display_height / 1.3 - 25, '...', screen)
+            self.bt_4.draw(display_widht / 4 + 25 * 4 + self.bt_1.widht * 3, display_height / 1.3 - 25, 'А?', screen)
+            display.update()

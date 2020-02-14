@@ -208,12 +208,14 @@ def main(save=False):
                 run = False
 
             if e.type == KEYDOWN and e.key == K_F5:
+                tmp_save = 0
                 save_new.save('rect', hero.rect)
-                save_new.save('map_platforms', platforms)
+                for elem in platforms:
+                    tmp_save += 1
+                    save_new.save(str(tmp_save), elem)
 
             if e.type == KEYDOWN and e.key == K_F8:
                 hero.rect = save_new.load('rect')
-                platforms = save_new.load('map_platforms')
 
             # if e.type == KEYDOWN and e.key == K_e:
             #    new_time = time.get_ticks()
@@ -261,7 +263,7 @@ def main(save=False):
         remove_bolck(platforms, camera, entities, hero)
         add_block(platforms, camera, entities, hero, block_num, npc_one)
         hero.update(left, right, up, platforms)
-        npc_one.update(False, True, False, platforms, hero, screen, camera)
+        npc_one.update(False, True, False, platforms, hero, screen, camera, WIN_WIDTH, WIN_HEIGHT)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 
