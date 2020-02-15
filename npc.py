@@ -158,11 +158,10 @@ class Npc(sprite.Sprite):
         if self.rect.x - 100 - camera.state.x < hero.rect.x - camera.state.x < self.rect.x + 100 - camera.state.x and \
                 self.rect.y - 100 - camera.state.y < hero.rect.y - camera.state.y < self.rect.y + 100:  # проверяем, находится ли нпс блиско к гг
             self.message_npc("Привет!", screen, camera)
-
-        if self.rect.x < self.mouse_pos[  # check press gg on npc
-            0] - camera.state.x < self.rect.x + self.rect.w and self.rect.y < \
-                self.mouse_pos[1] - camera.state.y < self.rect.y + self.rect.h and self.mouse_click[0] == 1:
-            self.dialog(screen, display_widht, display_height)
+            if self.rect.x < self.mouse_pos[  # check press gg on npc
+                0] - camera.state.x < self.rect.x + self.rect.w and self.rect.y < \
+                    self.mouse_pos[1] - camera.state.y < self.rect.y + self.rect.h and self.mouse_click[0] == 1:
+                self.dialog(screen, display_widht, display_height)
 
         # self.mosue = mouse.get_pos()
         # self.click = mouse.get_pressed()

@@ -1,10 +1,18 @@
 from buttons import *
 
 # Объявляем переменные
-WIN_WIDTH = 1280  # Ширина создаваемого окна
-WIN_HEIGHT = 720  # Высота
+WIN_WIDTH = 800  # Ширина создаваемого окна
+WIN_HEIGHT = 600  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
+
+
+class Item(sprite.Sprite):
+    def __init__(self, name, image):
+        sprite.Sprite.__init__(self)
+        self.name = name
+        self.image = image
+
 
 def interface(screen, bg):
     """
@@ -66,3 +74,7 @@ def ss():
 def item_activete(item):
     item.item = True
 
+
+if __name__ == "__main__":
+    first_image = image.load("textures/block/stypen.jpg")
+    bred = Item("bred", first_image)

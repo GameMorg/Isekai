@@ -183,3 +183,9 @@ class Player(sprite.Sprite):
                 if yvel < 0:  # если движется вверх
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
+
+
+
+
+
+

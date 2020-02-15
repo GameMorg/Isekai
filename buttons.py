@@ -2,7 +2,7 @@ from pygame import *
 import pygame
 
 
-class Button():
+class Button:
     def __init__(self, widht, height, ineractive_colar=(23, 204, 58), active_color=(13, 162, 58), save=False, box=False,
                  item=False):
         """
@@ -118,6 +118,7 @@ def print_text(message, x, y, win, font_color=(0, 0, 0), font_type='font_type.tt
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
     win.blit(text, (x, y))
+
 
 def pause(screen):
     """
