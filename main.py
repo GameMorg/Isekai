@@ -224,7 +224,8 @@ def main(save=False):
             #        panche.play()
 
             if e.type == KEYDOWN and e.key == K_TAB:
-                interface(screen, bg)
+                pass
+                interface(screen, WIN_WIDTH, WIN_HEIGHT)
 
             if e.type == KEYDOWN and e.key == K_F3:
                 if setttings_menu:

@@ -1,20 +1,32 @@
 from buttons import *
 
-# Объявляем переменные
-WIN_WIDTH = 800  # Ширина создаваемого окна
-WIN_HEIGHT = 600  # Высота
-DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
-BACKGROUND_COLOR = "#FFFFFF"
 
-
-class Item(sprite.Sprite):
-    def __init__(self, name, image):
-        sprite.Sprite.__init__(self)
+class Item:
+    def __init__(self, name, x, y):
         self.name = name
-        self.image = image
+        self.item_rect = Rect(x, y, 50, 50)
+        self.item_chek = False
+
+    def update(self, screen):
+        self.mose_pos = mouse.get_pos()
+        self.mouse_press = mouse.get_pressed()
+        if self.item_rect.x < self.mose_pos[0] < self.item_rect.x + self.item_rect.w and self.item_rect.y < \
+                self.mose_pos[1] < self.item_rect.y + self.item_rect.h:
+            if self.mouse_press[0] == 1:
+                time.delay(60)
+                if self.item_chek:
+                    self.item_chek = False
+                else:
+                    self.item_chek = True
+        if self.item_chek:
+            self.item_rect.x = self.mose_pos[0] - self.item_rect.w / 2
+            self.item_rect.y = self.mose_pos[1] - self.item_rect.h / 2
+            draw.rect(screen, (23, 204, 58), self.item_rect)
+        else:
+            draw.rect(screen, (23, 204, 58), self.item_rect)
 
 
-def interface(screen, bg):
+def interface(screen, display_widht, display_height):
     """
     Функция принимающая значение экрана и заднего фона
     выводит на экран итерфейс игрока, в котором
@@ -22,47 +34,34 @@ def interface(screen, bg):
     2) его характеристика
     3) его иконка на которую можно нажать и он скажет фразу
     :param screen:
-    :param bg:
     :return:
     """
-    show = True
-    button_hero = Button(200, 75)
-    characteristic = Button(200, 75 * 5)
-    enventory_arr = []
-    for i in range(5):
-        box_item = Button(30, 30, box=True)
-        enventory_arr.append(box_item)
-
-    item1 = Button(20, 20, active_color=(255, 0, 0), ineractive_colar=(255, 117, 117))
-
-    while show:
+    intarface = True
+    intarface_bg = Rect(100, 50, display_widht - 100 * 2, display_height - 50 * 2)
+    intarface_arr_bt = []
+    image.save(screen, "1.jpg")
+    image_bg = image.load("1.jpg")
+    sword = Item("Sword", 0, 0)
+    stone = Item("Stone", 100, 100)
+    for i in range(1, 5):
+        bt = Rect((intarface_bg.x + 5) * i, intarface_bg.y + 5, 50, 30)
+        intarface_arr_bt.append(bt)
+    while intarface:
         for e in event.get():
             if e.type == QUIT:
-                show = False
+                intarface = False
             if e.type == KEYDOWN and e.key == K_ESCAPE:
-                show = False
-
-        screen.blit(bg, (0, 0))
-        button_hero.draw(0, WIN_HEIGHT - 75, 'stats', screen, ss)
-        if button_hero.click_one:
-            characteristic.draw(0, WIN_HEIGHT - button_hero.height - characteristic.height, str('hp=100/100'), screen,
-                                ss)
-            print_text(' mp=100/100', 0, WIN_HEIGHT - button_hero.height - characteristic.height + 75, screen)
-        i = 0
-        for e in enventory_arr:
-            i += 1
-            e.draw(50 * i, 100, '', screen)
-            if e.box and i == 1:
-                pass
-
-            if i >= len(enventory_arr):
-                i = 0
-        x, y = mouse.get_pos()
-        if item1.item:
-            item1.draw(x, y, '', screen)
-        else:
-            item1.draw(50 + 5, 105, '', screen, item_activete(item1))
+                intarface = False
+            if e.type == KEYDOWN and e.key == K_TAB:
+                intarface = False
+        screen.blit(image_bg, (0, 0))
+        draw.rect(screen, (255, 255, 255), intarface_bg)
+        for e in intarface_arr_bt:
+            draw.rect(screen, (0, 0, 0), e)
+        sword.update(screen)
+        stone.update(screen)
         display.update()
+
 
 def ss():
     """
@@ -71,10 +70,6 @@ def ss():
     """
     pass
 
+
 def item_activete(item):
     item.item = True
-
-
-if __name__ == "__main__":
-    first_image = image.load("textures/block/stypen.jpg")
-    bred = Item("bred", first_image)
