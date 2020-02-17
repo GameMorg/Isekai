@@ -177,7 +177,6 @@ def main(save=False):
     total_level_height = len(chank_one.chank) * PLATFORM_HEIGHT  # высоту
 
     camera = Camera(camera_configure, total_level_width, total_level_height)
-    print(entities)
 
     run = True
     while run:  # Основной цикл программы

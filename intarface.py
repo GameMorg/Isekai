@@ -4,10 +4,10 @@ from buttons import *
 class Item:
     def __init__(self, name, x, y):
         self.name = name
-        self.item_rect = Rect(x, y, 50, 50)
+        self.item_rect = Rect(x, y, 32, 32)
         self.item_chek = False
 
-    def update(self, screen):
+    def update(self, screen, box_arr):
         self.mose_pos = mouse.get_pos()
         self.mouse_press = mouse.get_pressed()
         if self.item_rect.x < self.mose_pos[0] < self.item_rect.x + self.item_rect.w and self.item_rect.y < \
@@ -24,6 +24,24 @@ class Item:
             draw.rect(screen, (23, 204, 58), self.item_rect)
         else:
             draw.rect(screen, (23, 204, 58), self.item_rect)
+
+
+class Box_item:
+    def __init__(self, x, y, nuber):
+        self.rect = Rect(x, y, 40, 40)
+        self.number = nuber
+        self.box_chek = False
+
+    def update(self, items):
+        self.mouse_press = mouse.get_pressed()
+        for e in items:
+            if self.rect.x < e.item_rect.x + e.item_rect.w / 2 < self.rect.x + self.rect.w and \
+                    self.rect.y < e.item_rect.y + e.item_rect.h / 2 < self.rect.y + self.rect.h:
+                if self.mouse_press[0] == 1:
+                    time.delay(60)
+                    e.item_rect.x = self.rect.x + 4
+                    e.item_rect.y = self.rect.y + 4
+                    e.item_chek = False
 
 
 def interface(screen, display_widht, display_height):
@@ -43,6 +61,14 @@ def interface(screen, display_widht, display_height):
     image_bg = image.load("1.jpg")
     sword = Item("Sword", 0, 0)
     stone = Item("Stone", 100, 100)
+    box_rect = Rect(200, 100, 40, 40)
+    #
+    box_arr = []
+    box = Box_item(100, 200, 1)
+    box_arr.append(box)
+    #
+    items = [sword, stone]
+
     for i in range(1, 5):
         bt = Rect((intarface_bg.x + 5) * i, intarface_bg.y + 5, 50, 30)
         intarface_arr_bt.append(bt)
@@ -58,8 +84,17 @@ def interface(screen, display_widht, display_height):
         draw.rect(screen, (255, 255, 255), intarface_bg)
         for e in intarface_arr_bt:
             draw.rect(screen, (0, 0, 0), e)
-        sword.update(screen)
-        stone.update(screen)
+
+        # box
+        mose_pos = mouse.get_pos()
+        mouse_press = mouse.get_pressed()
+        for e in box_arr:
+            e.update(items)
+
+        draw.rect(screen, (5, 50, 50), box_rect)
+        # item
+        sword.update(screen, box_arr)
+        stone.update(screen, box_arr)
         display.update()
 
 
