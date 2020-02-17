@@ -149,8 +149,8 @@ def menu():
     load_bth = Button(192, 84, lbp, lba, save=True)
 
     setting_buttonn = Button(192, 84)
-    display_widht = 800
-    display_height = 600
+    display_widht = 1280
+    display_height = 720
 
     win = pygame.display.set_mode((display_widht, display_height), pygame.FULLSCREEN)
     skale = pygame.transform.scale(meun_backr, (display_widht, display_height))

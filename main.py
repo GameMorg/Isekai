@@ -12,8 +12,8 @@ import generator
 import npc
 
 # Объявляем переменные
-WIN_WIDTH = 800  # Ширина создаваемого окна
-WIN_HEIGHT = 600  # Высота
+WIN_WIDTH = 1280  # Ширина создаваемого окна
+WIN_HEIGHT = 720  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
 
