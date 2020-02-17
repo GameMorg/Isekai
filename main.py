@@ -89,6 +89,10 @@ def draw_map(chank, entities, platforms):
                 pf = Platform(x, y, col)
                 entities.add(pf)
                 platforms.append(pf)
+            elif col == 8:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля

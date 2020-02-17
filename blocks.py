@@ -28,21 +28,23 @@ class Platform(sprite.Sprite):
         self.fon_block = False
         self.poly_block = False
         if block == 1:
-            self.image = image.load("%s/textures/block/platform.jpg" % ICON_DIR)  # каменный блок
+            self.image = image.load("%s/textures/block/platform.png" % ICON_DIR)  # каменный блок
         elif block == 2:
-            self.image = image.load("%s/textures/block/dirt.jpg" % ICON_DIR)  # грязь
+            self.image = image.load("%s/textures/block/dirt.png" % ICON_DIR)  # грязь
         elif block == 3:
-            self.image = image.load("%s/textures/block/earst.jpg" % ICON_DIR)  # блок травы
+            self.image = image.load("%s/textures/block/earst.png" % ICON_DIR)  # блок травы
         elif block == 4:
-            self.image = image.load("%s/textures/block/stone.jpg" % ICON_DIR)  # камень
+            self.image = image.load("%s/textures/block/stone.png" % ICON_DIR)  # камень
         elif block == 5:
-            self.image = image.load("%s/textures/block/pesok.jpg" % ICON_DIR)  # песок
+            self.image = image.load("%s/textures/block/pesok.png" % ICON_DIR)  # песок
         elif block == 6:
             self.image = image.load("%s/textures/block/treeeee.png" % ICON_DIR)  # дерево
             self.fon_block = True
         elif block == 7:
-            self.image = image.load("%s/textures/block/land_grass_L.png" % ICON_DIR)  # диагональный блок травы
+            self.image = image.load("%s/textures/decor/stone 1.png" % ICON_DIR)  # диагональный блок травы
             self.poly_block = True
+            self.fon_block = True
+
 
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
