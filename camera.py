@@ -21,5 +21,5 @@ def camera_configure(camera, target_rect):
     """
     l, t, _, _ = target_rect
     _, _, w, h = camera
-    l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
+    l, t = -l + 1280 / 2, -t + 720 / 2
     return Rect(l, t, w, h)
