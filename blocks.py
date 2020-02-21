@@ -45,7 +45,6 @@ class Platform(sprite.Sprite):
             self.poly_block = True
             self.fon_block = True
 
-
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
 
@@ -137,3 +136,59 @@ def remove_bolck(platforms, camera, entities, hero):
                     if mouse_pl_click[0] == 1:
                         platforms.pop(tmp)
                         entities.remove(e)
+
+
+def draw_map(chank, entities, platforms):
+    """
+    1) принимает массив из чесел, которые означают номер блока
+    2) принимает группу спрайтов, в которую записывает значения получннные из массива 1
+    3) принимает массив класса блок, в которую записывает их координаты, размеры и вид блока
+    :param chank:
+    :param entities:
+    :param platforms:
+    :return:
+    """
+    y = 0
+    x = 960 * chank.chank_num  # координаты
+    for row in chank.chank:  # вся строка
+        for col in row:  # каждый символ
+            if col == 1:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+
+            elif col == 2:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 3:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 4:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 5:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 6:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 6:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 7:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            elif col == 8:
+                pf = Platform(x, y, col)
+                entities.add(pf)
+                platforms.append(pf)
+            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+        y += PLATFORM_HEIGHT  # то же самое и с высотой
+        x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля

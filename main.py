@@ -7,6 +7,7 @@ from player import *
 from menu import *
 from intarface import *
 from settings_menuu import *
+from camera import *
 import generator
 import npc
 
@@ -15,88 +16,6 @@ WIN_WIDTH = 1280  # Ширина создаваемого окна
 WIN_HEIGHT = 720  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#FFFFFF"
-
-
-class Camera(object):
-    def __init__(self, camera_func, width, height):
-        self.camera_func = camera_func
-        self.state = Rect(0, 0, width, height)
-
-    def apply(self, target):
-        return target.rect.move(self.state.topleft)
-
-    def update(self, target):
-        self.state = self.camera_func(self.state, target.rect)
-
-
-def camera_configure(camera, target_rect):
-    """
-    :param camera:
-    :param target_rect:
-    :return:
-    """
-    l, t, _, _ = target_rect
-    _, _, w, h = camera
-    l, t = -l + WIN_WIDTH / 2, -t + WIN_HEIGHT / 2
-    return Rect(l, t, w, h)
-
-
-def draw_map(chank, entities, platforms):
-    """
-    1) принимает массив из чесел, которые означают номер блока
-    2) принимает группу спрайтов, в которую записывает значения получннные из массива 1
-    3) принимает массив класса блок, в которую записывает их координаты, размеры и вид блока
-    :param chank:
-    :param entities:
-    :param platforms:
-    :return:
-    """
-    y = 0
-    x = 960 * chank.chank_num  # координаты
-    for row in chank.chank:  # вся строка
-        for col in row:  # каждый символ
-            if col == 1:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-
-            elif col == 2:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 3:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 4:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 5:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 6:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 6:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 7:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            elif col == 8:
-                pf = Platform(x, y, col)
-                entities.add(pf)
-                platforms.append(pf)
-            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-        y += PLATFORM_HEIGHT  # то же самое и с высотой
-        x = 960 * chank.chank_num  # на каждой новой строчке начинаем с нуля
-
-
 
 
 def main(save=False):
@@ -233,7 +152,7 @@ def main(save=False):
                 else:
                     setttings_menu = True
 
-            if e.type == KEYDOWN and e.key == K_1:   # меняем блоки
+            if e.type == KEYDOWN and e.key == K_1:  # меняем блоки
                 block_num += 1
                 if block_num > 7:
                     block_num = 1
@@ -242,37 +161,37 @@ def main(save=False):
                 block_num += 1
                 if block_num > 7:
                     block_num = 1
-            if e.type == MOUSEBUTTONDOWN and e.button == 5:   # меняем блоки назад
+            if e.type == MOUSEBUTTONDOWN and e.button == 5:  # меняем блоки назад
                 block_num -= 1
                 if block_num < 1:
                     block_num = 7
 
         #
-        #if time_day <= 0 or day:  # добавим день и ночь
-         #   time_day += 0.5
-          #  day = True
-           # if time_day >= 255:
-            #    old_time_day += 1
-             #   if old_time_day >= 1000:
-              #      day = False
-               #     old_time_day = 0
-        #else:
-            #time_day -= 0.5
+        # if time_day <= 0 or day:  # добавим день и ночь
+        #   time_day += 0.5
+        #  day = True
+        # if time_day >= 255:
+        #    old_time_day += 1
+        #   if old_time_day >= 1000:
+        #      day = False
+        #     old_time_day = 0
+        # else:
+        # time_day -= 0.5
         screen.fill((0, 0, 0))
-        #skale.set_alpha(time_day)
+        # skale.set_alpha(time_day)
         screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
         # передвижение
 
         # entities.draw(screen) # отображение
-        for e in entities:                                               # draw settings menu
+        for e in entities:  # draw settings menu
             screen.blit(e.image, camera.apply(e))
         if setttings_menu:
             settings_menu(hero, screen, block_num)
 
-        remove_bolck(platforms, camera, entities, hero)                    # удаляем блоки
-        add_block(platforms, camera, entities, hero, block_num, npc_one)   # добавляем блоки
-        hero.update(left, right, up, platforms)                            # hbcetv uthjz
+        remove_bolck(platforms, camera, entities, hero)  # удаляем блоки
+        add_block(platforms, camera, entities, hero, block_num, npc_one)  # добавляем блоки
+        hero.update(left, right, up, platforms)  # hbcetv uthjz
         npc_one.update(False, False, False, platforms, hero, screen, camera, WIN_WIDTH, WIN_HEIGHT)  # draw npc
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
