@@ -4,7 +4,6 @@
 # Импортируем библиотеку pygame
 
 from player import *
-from blocks import *
 from menu import *
 from intarface import *
 from settings_menuu import *
@@ -234,10 +233,20 @@ def main(save=False):
                 else:
                     setttings_menu = True
 
-            if e.type == KEYDOWN and e.key == K_1:
+            if e.type == KEYDOWN and e.key == K_1:   # меняем блоки
                 block_num += 1
                 if block_num > 7:
                     block_num = 1
+
+            if e.type == MOUSEBUTTONDOWN and e.button == 4:  # меняем блоки вперед
+                block_num += 1
+                if block_num > 7:
+                    block_num = 1
+            if e.type == MOUSEBUTTONDOWN and e.button == 5:   # меняем блоки назад
+                block_num -= 1
+                if block_num < 1:
+                    block_num = 7
+
         #
         #if time_day <= 0 or day:  # добавим день и ночь
          #   time_day += 0.5
@@ -256,16 +265,15 @@ def main(save=False):
         # передвижение
 
         # entities.draw(screen) # отображение
-        for e in entities:
+        for e in entities:                                               # draw settings menu
             screen.blit(e.image, camera.apply(e))
-
         if setttings_menu:
-            settings_menu(hero, screen, camera, npc_one)
+            settings_menu(hero, screen, block_num)
 
-        remove_bolck(platforms, camera, entities, hero)
-        add_block(platforms, camera, entities, hero, block_num, npc_one)
-        hero.update(left, right, up, platforms)
-        npc_one.update(False, False, False, platforms, hero, screen, camera, WIN_WIDTH, WIN_HEIGHT)
+        remove_bolck(platforms, camera, entities, hero)                    # удаляем блоки
+        add_block(platforms, camera, entities, hero, block_num, npc_one)   # добавляем блоки
+        hero.update(left, right, up, platforms)                            # hbcetv uthjz
+        npc_one.update(False, False, False, platforms, hero, screen, camera, WIN_WIDTH, WIN_HEIGHT)  # draw npc
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
 
