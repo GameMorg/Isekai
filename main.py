@@ -26,21 +26,10 @@ def main(save=False):
     :param save:
     :return:
     """
-    pygame.init()  # Инициация PyGame, обязательная строчка
-    screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
-    pygame.display.set_caption("Game")  # Пишем в шапку
-    bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
-    # будем использовать как фон
-    bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
-    bgbl = image.load('textures//background//background.jpg').convert(24)
-    skale = transform.scale(bgbl, (WIN_WIDTH, WIN_HEIGHT))
     time_day = 0
     day = False
     old_time_day = 0
-    setttings_menu = False
     deystvie = False
-    block_num = 1
-    npc_one = npc.Npc(100, 0)
     # добавим звуков и музыки
     # mixer.pre_init(44100, -16, 1, 512)
     # mixer.init()
@@ -50,31 +39,57 @@ def main(save=False):
     # shag.play(-1)
     # old_time = 0
     # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
-    chank_one = generator.Mymap(1)
     # chank_one.line_y(29, 1)
     # chank_two = generator.Mymap(-1)
     # chank_two.line_y(29, 2)
     # chank_tre = generator.Mymap(-2)
     # chank_tre.line_y(29, 1)
-    a = chank_one.chank_mass(20)
-    for i in range(3):
-        n = a[i]
+    # draw_map(chank_one, entities, platforms)
+    # draw_map(chank_two, entities, platforms)
+    # draw_map(chank_tre, entities, platforms)
+    # if e.type == KEYDOWN and e.key == K_e:
+    #    new_time = time.get_ticks()
+    #    if new_time - old_time > 1000:
+    #        old_time = new_time
+    #        panche.play()
+    # if time_day <= 0 or day:  # добавим день и ночь
+    #   time_day += 0.5
+    #  day = True
+    # if time_day >= 255:
+    #    old_time_day += 1
+    #   if old_time_day >= 1000:
+    #      day = False
+    #     old_time_day = 0
+    # else:
+    # time_day -= 0.5
+    # skale.set_alpha(time_day)
+
+    pygame.init()  # Инициация PyGame, обязательная строчка
+    screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
+    pygame.display.set_caption("Game")  # Пишем в шапку
+    bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
+    # будем использовать как фон
+    bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
+    bgbl = image.load('textures//background//background.jpg').convert(24)
+    skale = transform.scale(bgbl, (WIN_WIDTH, WIN_HEIGHT))  # background image
+    setttings_menu = False
+    block_num = 1  # draw map
+    npc_one = npc.Npc(100, 0)  # 1 npc
+    chank_one = generator.Mymap(1)  # 1 chanck
+    massiv_map = chank_one.chank_mass(20)
+    for i in range(3):  # заполняем карту блоками
+        n = massiv_map[i]
         for e in range(1):
             n.line_y(29 - e, 3 + i)
-
-    #
 
     hero = Player(0, 0)  # создаем героя по (x,y) координатам
     left = right = False  # по умолчанию - стоим
     up = False
-    #
-
-    #
     entities = pygame.sprite.Group()  # Все объекты
     platforms = []  # то, во что мы будем врезаться или опираться
 
-    entities.add(hero)
-    entities.add(npc_one)
+    entities.add(hero)  # add hero sprite
+    entities.add(npc_one)  # add npc sprite
     # Sve File
     if save:
         save = Save('Save')
@@ -82,71 +97,47 @@ def main(save=False):
     # load save
     save_new = Save('Save_new')
     #
-    for elem in a:
+    for elem in massiv_map:
         draw_map(elem, entities, platforms)
-    # draw_map(chank_one, entities, platforms)
-    # draw_map(chank_two, entities, platforms)
-    # draw_map(chank_tre, entities, platforms)
-    #
 
     # /////
-    timer = pygame.time.Clock()
-
-    #
-
-    #
+    timer = pygame.time.Clock()  # fps game
     total_level_width = len(chank_one.chank[0]) * PLATFORM_WIDTH  # Высчитываем фактическую ширину уровня
     total_level_height = len(chank_one.chank) * PLATFORM_HEIGHT  # высоту
-
-    camera = Camera(camera_configure, total_level_width, total_level_height)
-
+    camera = Camera(camera_configure, total_level_width, total_level_height)  # camera init
     run = True
     while run:  # Основной цикл программы
         timer.tick(60)
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
                 run = False
-            if e.type == KEYDOWN and e.key == K_SPACE:
+            if e.type == KEYDOWN and e.key == K_SPACE:  # прыгаем
                 up = True
-            if e.type == KEYDOWN and e.key == K_a:
+            if e.type == KEYDOWN and e.key == K_a:  # run left
                 left = True
-            if e.type == KEYDOWN and e.key == K_d:
+            if e.type == KEYDOWN and e.key == K_d:  # run right
                 right = True
-                #
-            if e.type == KEYDOWN and e.key == K_e:
-                deystvie = True
-            if e.type == KEYUP and e.key == K_e:
-                deystvie = False
-                #
             if e.type == KEYUP and e.key == K_SPACE:
                 up = False
             if e.type == KEYUP and e.key == K_d:
                 right = False
             if e.type == KEYUP and e.key == K_a:
                 left = False
-
-            if e.type == KEYDOWN and e.key == K_ESCAPE:
+            if e.type == KEYDOWN and e.key == K_ESCAPE:  # qut in game
                 run = False
-
-            if e.type == KEYDOWN and e.key == K_F5:
+            if e.type == KEYDOWN and e.key == K_F5:  # save game
                 tmp_save = 0
                 save_new.save('rect', hero.rect)
                 for elem in platforms:
                     tmp_save += 1
                     save_new.save(str(tmp_save), elem)
-
-            if e.type == KEYDOWN and e.key == K_F8:
+            if e.type == KEYDOWN and e.key == K_F8:  # load game
                 hero.rect = save_new.load('rect')
 
-            # if e.type == KEYDOWN and e.key == K_e:
-            #    new_time = time.get_ticks()
-            #    if new_time - old_time > 1000:
-            #        old_time = new_time
-            #        panche.play()
-            if e.type == KEYDOWN and e.key == K_TAB:
-                pass
+            if e.type == KEYDOWN and e.key == K_TAB:  # run interface
                 interface(screen, WIN_WIDTH, WIN_HEIGHT)
-            if e.type == KEYDOWN and e.key == K_F3:
+
+            if e.type == KEYDOWN and e.key == K_F3:  # active or passive settings menu
                 if setttings_menu:
                     setttings_menu = False
                 else:
@@ -166,19 +157,7 @@ def main(save=False):
                 if block_num < 1:
                     block_num = 7
 
-        #
-        # if time_day <= 0 or day:  # добавим день и ночь
-        #   time_day += 0.5
-        #  day = True
-        # if time_day >= 255:
-        #    old_time_day += 1
-        #   if old_time_day >= 1000:
-        #      day = False
-        #     old_time_day = 0
-        # else:
-        # time_day -= 0.5
-        screen.fill((0, 0, 0))
-        # skale.set_alpha(time_day)
+        screen.fill((0, 0, 0))  # black background
         screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
         # передвижение
