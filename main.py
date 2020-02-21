@@ -141,7 +141,7 @@ def main(save=False):
     a = chank_one.chank_mass(20)
     for i in range(3):
         n = a[i]
-        for e in range(23):
+        for e in range(1):
             n.line_y(29 - e, 3 + i)
 
     #
@@ -225,11 +225,9 @@ def main(save=False):
             #    if new_time - old_time > 1000:
             #        old_time = new_time
             #        panche.play()
-
             if e.type == KEYDOWN and e.key == K_TAB:
                 pass
                 interface(screen, WIN_WIDTH, WIN_HEIGHT)
-
             if e.type == KEYDOWN and e.key == K_F3:
                 if setttings_menu:
                     setttings_menu = False
@@ -241,18 +239,18 @@ def main(save=False):
                 if block_num > 7:
                     block_num = 1
         #
-        if time_day <= 0 or day:  # добавим день и ночь
-            time_day += 0.5
-            day = True
-            if time_day >= 255:
-                old_time_day += 1
-                if old_time_day >= 1000:
-                    day = False
-                    old_time_day = 0
-        else:
-            time_day -= 0.5
+        #if time_day <= 0 or day:  # добавим день и ночь
+         #   time_day += 0.5
+          #  day = True
+           # if time_day >= 255:
+            #    old_time_day += 1
+             #   if old_time_day >= 1000:
+              #      day = False
+               #     old_time_day = 0
+        #else:
+            #time_day -= 0.5
         screen.fill((0, 0, 0))
-        skale.set_alpha(time_day)
+        #skale.set_alpha(time_day)
         screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
         # передвижение
