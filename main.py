@@ -26,44 +26,6 @@ def main(save=False):
     :param save:
     :return:
     """
-    time_day = 0
-    day = False
-    old_time_day = 0
-    deystvie = False
-    # добавим звуков и музыки
-    # mixer.pre_init(44100, -16, 1, 512)
-    # mixer.init()
-    # shag = mixer.Sound('sounds/music/fon.ogg')
-    # panche = mixer.Sound('sounds/environment/shag.ogg')
-    # shag.set_volume(0.3)
-    # shag.play(-1)
-    # old_time = 0
-    # click_sound = mixer.Sound('sounds//environment//mm_button.ogg')
-    # chank_one.line_y(29, 1)
-    # chank_two = generator.Mymap(-1)
-    # chank_two.line_y(29, 2)
-    # chank_tre = generator.Mymap(-2)
-    # chank_tre.line_y(29, 1)
-    # draw_map(chank_one, entities, platforms)
-    # draw_map(chank_two, entities, platforms)
-    # draw_map(chank_tre, entities, platforms)
-    # if e.type == KEYDOWN and e.key == K_e:
-    #    new_time = time.get_ticks()
-    #    if new_time - old_time > 1000:
-    #        old_time = new_time
-    #        panche.play()
-    # if time_day <= 0 or day:  # добавим день и ночь
-    #   time_day += 0.5
-    #  day = True
-    # if time_day >= 255:
-    #    old_time_day += 1
-    #   if old_time_day >= 1000:
-    #      day = False
-    #     old_time_day = 0
-    # else:
-    # time_day -= 0.5
-    # skale.set_alpha(time_day)
-
     pygame.init()  # Инициация PyGame, обязательная строчка
     screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
@@ -88,22 +50,22 @@ def main(save=False):
     entities = pygame.sprite.Group()  # Все объекты
     platforms = []  # то, во что мы будем врезаться или опираться
 
-    entities.add(hero)  # add hero sprite
-    entities.add(npc_one)  # add npc sprite
-    # Sve File
+    entities.add(hero)
+    entities.add(npc_one)
+    # Save File
     if save:
         save = Save('Save')
         hero.rect = save.load('rect')
-    # load save
+
     save_new = Save('Save_new')
-    #
     for elem in massiv_map:
         draw_map(elem, entities, platforms)
 
-    # /////
     timer = pygame.time.Clock()  # fps game
+
     total_level_width = len(chank_one.chank[0]) * PLATFORM_WIDTH  # Высчитываем фактическую ширину уровня
     total_level_height = len(chank_one.chank) * PLATFORM_HEIGHT  # высоту
+
     camera = Camera(camera_configure, total_level_width, total_level_height)  # camera init
     run = True
     while run:  # Основной цикл программы
@@ -160,17 +122,17 @@ def main(save=False):
         screen.fill((0, 0, 0))  # black background
         screen.blit(skale, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
         camera.update(hero)  # центризируем камеру относительно персонажа
-        # передвижение
 
-        # entities.draw(screen) # отображение
-        for e in entities:  # draw settings menu
+
+        # отображение
+        for e in entities:
             screen.blit(e.image, camera.apply(e))
         if setttings_menu:
             settings_menu(hero, screen, block_num)
 
         remove_bolck(platforms, camera, entities, hero)  # удаляем блоки
         add_block(platforms, camera, entities, hero, block_num, npc_one)  # добавляем блоки
-        hero.update(left, right, up, platforms)  # hbcetv uthjz
+        hero.update(left, right, up, platforms)
         npc_one.update(False, False, False, platforms, hero, screen, camera, WIN_WIDTH, WIN_HEIGHT)  # draw npc
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
