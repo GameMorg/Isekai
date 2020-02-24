@@ -18,11 +18,11 @@ GRAVITY = 0.35  # Сила, которая будет тянуть нас вни
 ANIMATION_DELAY = 0.1  # скорость смены кадров
 ICON_DIR = os.path.dirname(__file__)  # Полный путь к каталогу с файлами
 
-ANIMATION_RIGHT = [('%s/mario/r1.png' % ICON_DIR),
-                   ('%s/mario/r2.png' % ICON_DIR),
-                   ('%s/mario/r3.png' % ICON_DIR),
-                   ('%s/mario/r4.png' % ICON_DIR),
-                   ('%s/mario/r5.png' % ICON_DIR)]
+ANIMATION_RIGHT = [('%s/mario/chaster_1.png' % ICON_DIR),
+                   ('%s/mario/chaster_2.png' % ICON_DIR),
+                   ('%s/mario/chaster_3.png' % ICON_DIR),
+                   ('%s/mario/chaster_4.png' % ICON_DIR),
+                   ('%s/mario/chaster_5.png' % ICON_DIR)]
 ANIMATION_LEFT = [('%s/mario/l1.png' % ICON_DIR),
                   ('%s/mario/l2.png' % ICON_DIR),
                   ('%s/mario/l3.png' % ICON_DIR),
@@ -72,20 +72,7 @@ class Npc(sprite.Sprite):
         self.boltAnimJump = pyganim.PygAnimation(ANIMATION_JUMP)
         self.boltAnimJump.play()
 
-        # sound
-        # self.panche = mixer.Sound('sounds/environment/panche.ogg')
-        # self.shag = mixer.Sound('sounds/environment/shag.ogg')
-        # self.aaaaa = mixer.Sound('mario/aaa.ogg')
-        # self.cho_nada = mixer.Sound('mario/cho_nada.ogg')
-        # self.otvali = mixer.Sound('mario/otvali.ogg')
-        # self.shag_max = 4
-        # self.shag_val = 0
-        #
-        # say hero
-        # self.num_f = 0
-        # self.old_time_shag = 0
-
-    def update(self, left, right, up, platforms, hero, screen, camera, display_widht=800, display_height=600):
+    def update(self, left, right, up, platforms, hero, screen, camera, display_widht=1280, display_height=720):
         """
         функция, проверяющее положения нпс, его действия и события
         :param left:
@@ -105,14 +92,6 @@ class Npc(sprite.Sprite):
 
         if left:
             self.xvel = -MOVE_SPEED  # Лево = x- n
-            # sound
-            # if self.onGround:
-            # self.new_time = time.get_ticks()
-            # if self.new_time - self.old_time_shag > 300:
-            # self.old_time_shag = self.new_time
-            # self.shag.play()
-            #
-
             self.image.fill(Color(COLOR))
             if up:  # для прыжка влево есть отдельная анимация
                 self.boltAnimJumpLeft.blit(self.image, (0, 0))
@@ -122,14 +101,6 @@ class Npc(sprite.Sprite):
         if right:
             self.xvel = MOVE_SPEED  # Право = x + n
             self.image.fill(Color(COLOR))
-
-            # sound
-            # if self.onGround:
-            # self.new_time = time.get_ticks()
-            # if self.new_time - self.old_time_shag > 300:
-            # aaaaself.old_time_shag = self.new_time
-            # self.shag.play()
-            #
 
             if up:
                 self.boltAnimJumpRight.blit(self.image, (0, 0))
@@ -155,30 +126,14 @@ class Npc(sprite.Sprite):
         self.mouse_pos = mouse.get_pos()  # где находится мышка
         self.mouse_click = mouse.get_pressed()  # какая кнопка нажата
 
-        if self.rect.x - 100 - camera.state.x < hero.rect.x - camera.state.x < self.rect.x + 100 - camera.state.x and \
-                self.rect.y - 100 - camera.state.y < hero.rect.y - camera.state.y < self.rect.y + 100:  # проверяем, находится ли нпс блиско к гг
+        if self.rect.x - 100 < hero.rect.x < self.rect.x + 100 and \
+                self.rect.y - 100 < hero.rect.y < self.rect.y + 100:  # проверяем, находится ли нпс блиско к гг
+
             self.message_npc("Привет!", screen, camera)
             if self.rect.x < self.mouse_pos[  # check press gg on npc
                 0] - camera.state.x < self.rect.x + self.rect.w and self.rect.y < \
                     self.mouse_pos[1] - camera.state.y < self.rect.y + self.rect.h and self.mouse_click[0] == 1:
                 self.dialog(screen, display_widht, display_height)
-
-        # self.mosue = mouse.get_pos()
-        # self.click = mouse.get_pressed()
-
-        # if self.rect.x < self.mosue[0] < self.rect.x + self.rect.width:
-        #    if self.rect.y < self.mosue[1] < self.rect.y + self.rect.height:
-        #        if self.click[0] == 1:
-        #            time.delay(300)
-        #            if self.num_f == 0:
-        #                self.aaaaa.play()
-        #                self.num_f += 1
-        #            elif self.num_f == 1:
-        #                self.cho_nada.play()
-        #                self.num_f += 1
-        #            elif self.num_f == 2:
-        #                self.otvali.play()
-        #                self.num_f = 0
 
     def collide(self, xvel, yvel, platforms):
         """
@@ -247,6 +202,8 @@ class Npc(sprite.Sprite):
                 if e.type == QUIT:
                     dialog = False
                 if e.type == KEYDOWN and e.key == K_ESCAPE:
+                    dialog = False
+                if e.type == KEYDOWN and e.key == K_TAB:
                     dialog = False
             background_dialog = Rect(display_widht / 4, display_height / 8, display_widht / 2, display_height / 1.3)
             draw.rect(screen, (255, 255, 255), background_dialog)

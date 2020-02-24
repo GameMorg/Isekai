@@ -6,9 +6,46 @@ class Box:
         self.num_box = num_box
         self.rect = Rect(self.num_box * 40 + 120, 70, 40, 40)
         self.color = (0, 0, 255)
+        self.item = False
 
     def draw(self, screen):
         draw.rect(screen, self.color, self.rect)
+
+
+class Item:
+    def __init__(self, box):
+        self.box = box
+        self.rect = Rect(self.box.rect.x + 5, self.box.rect.y + 5, self.box.rect.w - 10, self.box.rect.h - 10)
+        self.color = (50, 255, 100)
+        self.item_mouse = False
+
+    def draw(self, screen):
+        draw.rect(screen, self.color, self.rect)
+
+    def update(self, mouse_pos, mouse_press, box_arr):
+        if self.rect.x < mouse_pos[0] < self.rect.x + self.rect.w and self.rect.y < mouse_pos[
+            1] < self.rect.y + self.rect.h:
+            self.color = (0, 0, 0)
+            if mouse_press[0] == 1:
+                for box_y in box_arr:
+                    for box_x in box_y:
+                        if self.item_mouse and box_x.rect.x < mouse_pos[
+                            0] < box_x.rect.x + box_x.rect.w and box_x.rect.y < mouse_pos[
+                            1] < box_x.rect.y + box_x.rect.h:
+                            self.item_mouse = False
+                            self.box = box_x
+                        else:
+                            self.item_mouse = True
+
+        else:
+            self.color = (50, 255, 100)
+
+        if self.item_mouse:
+            self.rect.x = mouse_pos[0] - self.rect.w / 2
+            self.rect.y = mouse_pos[1] - self.rect.h / 2
+        else:
+            self.rect.x = self.box.rect.x + 5
+            self.rect.x = self.box.rect.y + 5
 
 
 def interface(screen, display_widht, display_height):
@@ -41,6 +78,13 @@ def interface(screen, display_widht, display_height):
         bt = Rect((intarface_bg.x + 5) * i, intarface_bg.y + 5, 50, 30)
         intarface_arr_bt.append(bt)
 
+    item_arr = []
+    for num in range(5):
+        box_y = item_box_arr_y[0]
+        box_x = box_y[num]
+        item = Item(box_x)
+        item_arr.append(item)
+
     while intarface:
         for e in event.get():
             if e.type == QUIT:
@@ -56,5 +100,10 @@ def interface(screen, display_widht, display_height):
         for item_box_x in item_box_arr_y:
             for box in item_box_x:
                 box.draw(screen)
+        mouse_pos = mouse.get_pos()
+        mouse_press = mouse.get_pressed()
+        for item in item_arr:
+            item.update(mouse_pos, mouse_press, item_box_arr_y)
+            item.draw(screen)
 
         display.update()

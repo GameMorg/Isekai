@@ -2,7 +2,7 @@ from buttons import *
 from blocks import *
 
 
-def settings_menu(hero, screen, block_num):
+def settings_menu(hero, screen, block_num, npc):
     """
     функция  принимающая значения экрана и героя
     выводит на экран позицию героя, и время в игре
@@ -22,3 +22,5 @@ def settings_menu(hero, screen, block_num):
         print_text(str('y = ' + str(hero_y_message)), 0, 30, screen)
         print_text(str('time = ' + str(show_time_1) + ' sec'), 0, 60, screen)
         print_text(str(block_num), 0, 90, screen)
+        print_text(str(hero.rect.x), 0, 120, screen)
+        print_text(str(npc.rect.x), 0, 150, screen)
