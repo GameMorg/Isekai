@@ -27,7 +27,7 @@ def main(save=False):
     :return:
     """
     pygame.init()  # Инициация PyGame, обязательная строчка
-    screen = pygame.display.set_mode(DISPLAY, FULLSCREEN)  # Создаем окошко
+    screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
     # будем использовать как фон
