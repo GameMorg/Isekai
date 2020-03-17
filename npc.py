@@ -10,8 +10,8 @@ mixer.init()
 
 
 MOVE_SPEED = 1
-WIDTH = 64
-HEIGHT = 64
+WIDTH = 22
+HEIGHT = 32
 COLOR = "#888888"
 JUMP_POWER = 5.25
 GRAVITY = 0.35  # Сила, которая будет тянуть нас вниз
@@ -22,7 +22,10 @@ ANIMATION_RIGHT = [('%s/mario/chaster_1.png' % ICON_DIR),
                    ('%s/mario/chaster_2.png' % ICON_DIR),
                    ('%s/mario/chaster_3.png' % ICON_DIR),
                    ('%s/mario/chaster_4.png' % ICON_DIR),
-                   ('%s/mario/chaster_5.png' % ICON_DIR)]
+                   ('%s/mario/chaster_5.png' % ICON_DIR),
+                   ('%s/mario/chaster_6.png' % ICON_DIR),
+                   ('%s/mario/chaster_7.png' % ICON_DIR),
+                   ('%s/mario/chaster_8.png' % ICON_DIR)]
 
 ANIMATION_LEFT = [('%s/mario/l1.png' % ICON_DIR),
                   ('%s/mario/l2.png' % ICON_DIR),

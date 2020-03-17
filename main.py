@@ -30,12 +30,12 @@ def main(save=False):
     screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
     pygame.display.set_caption("Game")  # Пишем в шапку
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
-    # будем использовать как фон
     bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
     bgbl = image.load('textures//background//background.jpg').convert(24)
     skale = transform.scale(bgbl, (WIN_WIDTH, WIN_HEIGHT))  # background image
     setttings_menu = False
-    block_num = 1  # draw map
+
+    block_num = 1
     npc_one = npc.Npc(100, 0)  # 1 npc
     chank_one = generator.Mymap(1)  # 1 chanck
     massiv_map = chank_one.chank_mass(20)
@@ -45,11 +45,12 @@ def main(save=False):
             n.line_y(29 - e, 3 + i)
 
     hero = Player(0, 0)  # создаем героя по (x,y) координатам
+
     left = right = False  # по умолчанию - стоим
     up = False
+
     entities = pygame.sprite.Group()  # Все объекты
     platforms = []  # то, во что мы будем врезаться или опираться
-
     entities.add(hero)
     entities.add(npc_one)
     # Save File

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Mymap():
+class Mymap:
     """
     генератор карт
     """
