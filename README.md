@@ -1,10 +1,6 @@
 # GameMorg-studio-isekai
 
-1) Установить python 3.6
-
-2) В python установить библиотеки pygame и numpy 
-
-3) Запустить файл main.py
+2Д игра на движке pygame с использованием библиотеки numpy
 
 
 Стартовое окно игры:
